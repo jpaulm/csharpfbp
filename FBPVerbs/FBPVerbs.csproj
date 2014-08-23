@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4A5825D9-E8B2-4F4C-AE4B-0573DA5B5CE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FBPVerbs</RootNamespace>
+    <AssemblyName>FBPVerbs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FBPComponents\ProcessSlowly.cs" />
+    <Compile Include="FBPComponents\CleanBlob.cs" />
+    <Compile Include="FBPComponents\Collate.cs" />
+    <Compile Include="FBPComponents\Concatenate.cs" />
+    <Compile Include="FBPComponents\Copy.cs" />
+    <Compile Include="FBPComponents\DirList.cs" />
+    <Compile Include="FBPComponents\Discard.cs" />
+    <Compile Include="FBPComponents\DisplayWords.cs" />
+    <Compile Include="FBPComponents\FormatConcord.cs" />
+    <Compile Include="FBPComponents\Generate.cs" />
+    <Compile Include="FBPComponents\GenerateSlowly.cs" />
+    <Compile Include="FBPComponents\GenSS.cs" />
+    <Compile Include="FBPComponents\GenSubStreams.cs" />
+    <Compile Include="FBPComponents\Inject.cs" />
+    <Compile Include="FBPComponents\LoadBalance.cs" />
+    <Compile Include="FBPComponents\Match.cs" />
+    <Compile Include="FBPComponents\Output.cs" />
+    <Compile Include="FBPComponents\Passthru.cs" />
+    <Compile Include="FBPComponents\ReadFromSocket.cs" />
+    <Compile Include="FBPComponents\ReadOdbc.cs" />
+    <Compile Include="FBPComponents\ReadStreamBlob.cs" />
+    <Compile Include="FBPComponents\ReadText.cs" />
+    <Compile Include="FBPComponents\ReplString.cs" />
+    <Compile Include="FBPComponents\RunExe.cs" />
+    <Compile Include="FBPComponents\Sort.cs" />
+    <Compile Include="FBPComponents\Splitter1.cs" />
+    <Compile Include="FBPComponents\Text2IntArray.cs" />
+    <Compile Include="FBPComponents\TextToWords.cs" />
+    <Compile Include="FBPComponents\Tune.cs" />
+    <Compile Include="FBPComponents\WriteText.cs" />
+    <Compile Include="FBPComponents\WriteTextBox.cs" />
+    <Compile Include="FBPComponents\WriteToSocket.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FBPLib\FBPLib.csproj">
+      <Project>{4E7DACA9-4D36-4029-8528-85DFA03754FD}</Project>
+      <Name>FBPLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

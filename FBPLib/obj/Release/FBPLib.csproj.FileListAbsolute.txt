@@ -1,0 +1,10 @@
+C:\Users\Paul\Documents\Visual Studio 2010\Projects\FBP\csharpengine\FBPLib\bin\Release\FBPLib.dll.config
+C:\Users\Paul\Documents\Visual Studio 2010\Projects\FBP\csharpengine\FBPLib\bin\Release\FBPLib.dll
+C:\Users\Paul\Documents\Visual Studio 2010\Projects\FBP\csharpengine\FBPLib\bin\Release\FBPLib.pdb
+C:\Users\Paul\Documents\Visual Studio 2010\Projects\FBP\csharpengine\FBPLib\obj\Release\FBPLib.dll
+C:\Users\Paul\Documents\Visual Studio 2010\Projects\FBP\csharpengine\FBPLib\obj\Release\FBPLib.pdb
+C:\Users\Paul\Documents\Business\C#Stuff\FBP\csharpengine\FBPLib\bin\Release\FBPLib.dll.config
+C:\Users\Paul\Documents\Business\C#Stuff\FBP\csharpengine\FBPLib\bin\Release\FBPLib.dll
+C:\Users\Paul\Documents\Business\C#Stuff\FBP\csharpengine\FBPLib\bin\Release\FBPLib.pdb
+C:\Users\Paul\Documents\Business\C#Stuff\FBP\csharpengine\FBPLib\obj\Release\FBPLib.dll
+C:\Users\Paul\Documents\Business\C#Stuff\FBP\csharpengine\FBPLib\obj\Release\FBPLib.pdb

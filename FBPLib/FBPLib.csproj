@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4E7DACA9-4D36-4029-8528-85DFA03754FD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FBPLib</RootNamespace>
+    <AssemblyName>FBPLib</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lib\Chain.cs" />
+    <Compile Include="Lib\ComponentException.cs" />
+    <Compile Include="Lib\Component.cs" />
+    <Compile Include="Lib\ComponentDescriptionAttribute.cs" />
+    <Compile Include="Lib\ConnArray.cs" />
+    <Compile Include="Lib\Connection.cs" />
+    <Compile Include="Lib\Copyright.cs" />
+    <Compile Include="Lib\CountDownLatch.cs" />
+    <Compile Include="Lib\FlowError.cs" />
+    <Compile Include="Lib\IInputPort.cs" />
+    <Compile Include="Lib\InitializationConnection.cs" />
+    <Compile Include="Lib\InPortAttribute.cs" />
+    <Compile Include="Lib\MustRunAttribute.cs" />
+    <Compile Include="Lib\Network.cs" />
+    <Compile Include="Lib\NullConnection.cs" />
+    <Compile Include="Lib\NullOutputPort.cs" />
+    <Compile Include="Lib\OutArray.cs" />
+    <Compile Include="Lib\OutPortAttribute.cs" />
+    <Compile Include="Lib\OutputPort.cs" />
+    <Compile Include="Lib\Packet.cs" />
+    <Compile Include="Lib\PacketBuffer.cs" />
+    <Compile Include="Lib\Port.cs" />
+    <Compile Include="Lib\PriorityAttribute.cs" />
+    <Compile Include="Lib\Record.cs" />
+    <Compile Include="Lib\SelfStartingAttribute.cs" />
+    <Compile Include="Lib\SubIn.cs" />
+    <Compile Include="Lib\SubInSS.cs" />
+    <Compile Include="Lib\SubNet.cs" />
+    <Compile Include="Lib\SubOut.cs" />
+    <Compile Include="Lib\SubOutSS.cs" />
+    <Compile Include="Lib\TimeoutHandler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
