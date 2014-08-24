@@ -18,25 +18,9 @@ Web sites for FBP:
 Prerequisites
 ---
 
-
-The project requires Gradle for building (tested with version 2.0). You can download the corresponding package from the following URL: 
-http://www.gradle.org
-
-Windows and Linux users should follow the installation instructions on the Maven website (URL provided above).
-
-OSX users (using Brew, http://brew.sh) can install Maven by executing the following command:
-
-    brew install gradle
-
-
-Building from command line
----
-
-For building the project simply run the following command:
-
-    gradle build
-
-As a result a `csharpfbp-x.x.jar` file will be created in the `build/libs` directory. It will include the CsharpFBP core (runtime) and all the components from the source code. 
+Install VC#2010 Express
+Create a "solution" in your project (extension `.sln`), e.g. `FBP.sln`.
+Rebuild this solution in VC#2010 Express
 
 Testing your download
 ---
