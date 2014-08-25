@@ -18,16 +18,33 @@ Web sites for FBP:
 Prerequisites
 ---
 
-Install Visual C# 2010 Express
-Create a "solution" in your project, e.g. `FBP`.
-Open Visual C# 2010 Express
-Add Existing Item `Concord.csproj`
-Add Existing Item `FBPlib.csproj`
-Add Existing Item `FBPVerbs.csproj`
-Build 
+Install Visual C# Express
+
+Build FBP Project
+---
+
+Create empty `csharpfbp` directory in your local GitHub directory
+Go up one level, and do a `git clone https://github.com/jpaulm/csharpfbp`
+
+Now go into Visual C#, and `Open Project` `Concord.csproj` (in the just cloned directory)
+This will create a "solution" called `Concord` and one "project" also called `Concord`
+Go to the "solution" line, and rename to `FBP`.
+
+Still on "solution" line,
+Add/Existing Project `FBPlib.csproj`
+Add/Existing Project `FBPVerbs.csproj`
+
+The "solution" line should now say 3 projects
+Now close Visual C#, and it will ask you if you want to save `FBP.sln`
+Savy `Yes`, and it will prompt you with a sugested location.  Remove `Concord` from the suggested file name, and hit `Save`.
+
+Go back into Visual C# and do `Build Solution`
+Build and perh. Rebuild (took two tries - not sure why!)
 
 Testing your download
 ---
 
-Run `Concord`.  When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text.
+Click on `Concord`; Debug/Start new instance
+
+When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text.
 
