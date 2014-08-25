@@ -36,7 +36,7 @@ Add/Existing Project `FBPVerbs.csproj`
 
 The "solution" line should now say 3 projects
 Now close Visual C#, and it will ask you if you want to save `FBP.sln`
-Savy `Yes`, and it will prompt you with a sugested location.  Remove `Concord` from the suggested file name, and hit `Save`.
+Say `Yes`, and it will prompt you with a sugested location.  Remove `Concord` from the suggested file name, and hit `Save`.
 
 Go back into Visual C# 
 Right click on `Concord`, click on Add Reference..., select both FBPLib and FBPVerbs, hit OK
