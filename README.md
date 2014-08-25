@@ -26,28 +26,29 @@ Build FBP Project
 Create empty `csharpfbp` directory in your local GitHub directory
 Go up one level, and do a `git clone https://github.com/jpaulm/csharpfbp`
 
-Now go into Visual C#, and `Open Project` `Concord.csproj` (in the just cloned directory)
-This will create a "solution" called `Concord` and one "project" also called `Concord`
+Now go into Visual C#, and `Open Project` `FBPLib/FBPLib.csproj` (in the just cloned directory)
+This will create a "solution" called `FBPLib` and one "project" also called `FBPLib`
 Go to the "solution" line, and rename to `FBP`.
 
 Still on "solution" line,
-Add/Existing Project `FBPlib.csproj`
-Add/Existing Project `FBPVerbs.csproj`
+
+Add/Existing Project `FBPVerbs/FBPVerbs.csproj`
+Add/Existing Project `Concord/Concord.csproj`
 
 The "solution" line should now say 3 projects
 Now close Visual C#, and it will ask you if you want to save `FBP.sln`
-Say `Yes`, and it will prompt you with a sugested location.  Remove `Concord` from the suggested file name, and hit `Save`.
+Say `Yes`, and it will prompt you with a sugested location.  Remove `FBPLibs\` from the suggested file name, and hit `Save`.
 
-Go back into Visual C# 
-Right click on `Concord`, click on Add Reference..., select both FBPLib and FBPVerbs, hit OK
-Right click on `FBPVerbs`, click on Add Reference..., select FBPLib, hit OK
-
+Reopen Visual C#
 Do `Build Solution`
+If you only get warnings, you can proceed
 
 Testing your Solution
 ---
 
 Click on `Concord`; Debug/Start new instance
 
-When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text (a so-called "lorem ipsum").
+When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text (a so-called "lorem ipsum").  Source text will be on the left, and the concordance is on the right.
+
+When you are finished, hit Exit.
 
