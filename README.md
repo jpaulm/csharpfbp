@@ -18,9 +18,13 @@ Web sites for FBP:
 Prerequisites
 ---
 
-Install VC#2010 Express
-Create a "solution" in your project (extension `.sln`), e.g. `FBP.sln`.
-Rebuild this solution in VC#2010 Express
+Install Visual C# 2010 Express
+Create a "solution" in your project, e.g. `FBP`.
+Open Visual C# 2010 Express
+Add Existing Item `Concord.csproj`
+Add Existing Item `FBPlib.csproj`
+Add Existing Item `FBPVerbs.csproj`
+Build 
 
 Testing your download
 ---
