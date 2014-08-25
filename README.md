@@ -30,7 +30,7 @@ Now go into Visual C#, and `Open Project` `FBPLib/FBPLib.csproj` (in the just cl
 This will create a "solution" called `FBPLib` and one "project" also called `FBPLib`
 Go to the "solution" line, and rename to `FBP`.
 
-Still on "solution" line,
+Still on "solution" line, in this exact sequence,
 
 Add/Existing Project `FBPVerbs/FBPVerbs.csproj`
 Add/Existing Project `Concord/Concord.csproj`
@@ -51,4 +51,8 @@ Click on `Concord`; Debug/Start new instance
 When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text (a so-called "lorem ipsum").  Source text will be on the left, and the concordance is on the right.
 
 When you are finished, hit Exit.
+
+Here is the output of Concord:
+
+![ConcordOutput](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordOutput.png "Output of Concordance")
 
