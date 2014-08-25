@@ -53,7 +53,7 @@ If you only get warnings, you can proceed
 Testing your Solution
 ---
 
-Click on `Concord`; Debug/Start new instance
+Right click on `Concord`; Debug/Start new instance
 
 When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text (a so-called "lorem ipsum").  Source text will be on the left, and the concordance is on the right.
 
@@ -66,5 +66,15 @@ Here is the output of Concord:
 Adding some batch examples
 ---
 
-To be completed...
+Open Visual C#
+
+Go to "solution" line
+
+Add/Existing Project `TestNetworks/MergeAndSort/MergeAndSort.csproj` 
+
+Solution should now show "4 projects"
+
+Right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
+
+
 
