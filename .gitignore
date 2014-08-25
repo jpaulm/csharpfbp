@@ -19,6 +19,7 @@ build
 *.pdb
 *.cache
 *.txt
+*.force
 
 # IDEA project
 .idea/

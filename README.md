@@ -38,13 +38,16 @@ The "solution" line should now say 3 projects
 Now close Visual C#, and it will ask you if you want to save `FBP.sln`
 Savy `Yes`, and it will prompt you with a sugested location.  Remove `Concord` from the suggested file name, and hit `Save`.
 
-Go back into Visual C# and do `Build Solution`
-Build and perh. Rebuild (took two tries - not sure why!)
+Go back into Visual C# 
+Right click on `Concord`, click on Add Reference..., select both FBPLib and FBPVerbs, hit OK
+Right click on `FBPVerbs`, click on Add Reference..., select FBPLib, hit OK
 
-Testing your download
+Do `Build Solution`
+
+Testing your Solution
 ---
 
 Click on `Concord`; Debug/Start new instance
 
-When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text.
+When you see the screen with two panels, click on `Go`.  You should see a concordance being built using "artificial" Russian text (a so-called "lorem ipsum").
 
