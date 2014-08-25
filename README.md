@@ -33,6 +33,7 @@ Go to the "solution" line, and rename to `FBP`.
 Still on "solution" line, in this exact sequence,
 
 Add/Existing Project `FBPVerbs/FBPVerbs.csproj`
+
 Add/Existing Project `Concord/Concord.csproj`
 
 The "solution" line should now say 3 projects
@@ -55,4 +56,9 @@ When you are finished, hit Exit.
 Here is the output of Concord:
 
 ![ConcordOutput](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordOutput.png "Output of Concordance")
+
+Adding some batch examples
+---
+
+To be completed...
 
