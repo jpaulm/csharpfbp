@@ -170,12 +170,14 @@ namespace FBPLib
                 _inputPorts.Add(s, ca);
                 ca._fixedSize = ipt.fixedSize;
                 ca._name = s;
+                ca._optional = ipt.optional;
             }
             else
             {
                 NullConnection nc = new NullConnection();
                 nc._name = s;
                 _inputPorts.Add(s, nc);
+                nc._optional = ipt.optional;
             }
         }
 
@@ -893,15 +895,20 @@ namespace FBPLib
 
      public bool CheckPorts() {
             bool res = true;
-         /*
+         
 	        foreach (KeyValuePair<String, IInputPort> kvp in _inputPorts) {
 	            if (kvp.Value is NullConnection) {
+                    NullConnection nc = (NullConnection)kvp.Value;
+                    if (nc._optional)
+                    {
+                        continue;
+                    }
 	                 Console.WriteLine("Input port specified in metadata, but not connected: " +  Name + "."  + 
 	               kvp.Value.Name);
 	            res = false;
 	            }
 	        }
-         */
+        
             foreach (KeyValuePair<String, OutputPort> kvp in _outputPorts)  {
                 if (kvp.Value is NullOutputPort) {
                    NullOutputPort nop = (NullOutputPort) kvp.Value;

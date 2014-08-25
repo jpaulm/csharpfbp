@@ -51,7 +51,7 @@
     <Compile Include="FBPComponents\Discard.cs" />
     <Compile Include="FBPComponents\DisplayWords.cs" />
     <Compile Include="FBPComponents\FormatConcord.cs" />
-    <Compile Include="FBPComponents\Generate.cs" />
+    <Compile Include="FBPComponents\GenerateTestData.cs" />
     <Compile Include="FBPComponents\GenerateSlowly.cs" />
     <Compile Include="FBPComponents\GenSS.cs" />
     <Compile Include="FBPComponents\GenSubStreams.cs" />

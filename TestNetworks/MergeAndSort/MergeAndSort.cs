@@ -20,7 +20,7 @@ namespace TestNetworks
         public override void Define() /* throws Throwable */ {
 
 
-            Component("Generate", typeof(Generate));
+            Component("Generate", typeof(GenerateTestData));
             Component("Passthru", typeof(Passthru));
             Component("Passthru2", typeof(Passthru));
             Component("Sort", typeof(Sort));
@@ -36,7 +36,7 @@ namespace TestNetworks
                 Component("Generate"),
                 Port("COUNT"));
 
-            Connect(Component("Generate2", typeof(Generate)),
+            Connect(Component("Generate2", typeof(GenerateTestData)),
                 Port("OUT"),
                 Component("Passthru2"),
                 Port("IN"));
@@ -56,10 +56,7 @@ namespace TestNetworks
             Initialize(st,
                 Component("Write"),
                 Port("DESTINATION"));
-
-            Initialize("-",
-                Component("Write"),
-                Port("FLUSH"));
+            
             Initialize("500",
                 Component("Write"),
                 Port("CONFIG"));

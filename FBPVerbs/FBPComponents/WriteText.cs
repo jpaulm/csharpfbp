@@ -14,8 +14,8 @@ namespace Components
 */
     [MustRun]
     [InPort("DESTINATION")]
-    [InPort("FLUSH")]
-    [InPort("CONFIG")]
+    [InPort("FLUSH", optional = true)]
+    [InPort("CONFIG", optional = true)]
     [InPort("IN")]
     [OutPort("OUT", optional = true)]
     [ComponentDescription("Write text to destination")]
