@@ -27,30 +27,15 @@ Create empty `csharpfbp` directory in your local GitHub directory
 
 Go up one level, and do a `git clone https://github.com/jpaulm/csharpfbp`
 
-Now go into Visual C#, and `Open Project` `FBPLib/FBPLib.csproj` (in the just cloned directory)
-This will create a "solution" called `FBPLib` and one "project" also called `FBPLib`
+Now go into Visual C#, and `Open Project` `FBP.sln` (in the just cloned directory)
 
-Go to the "solution" line, and rename to `FBP`.
-
-Still on "solution" line, in this exact sequence,
-
-Add/Existing Project `FBPVerbs/FBPVerbs.csproj`
-
-Add/Existing Project `Concord/Concord.csproj`
-
-The "solution" line should now say 3 projects
-
-Now close Visual C#, and it will ask you if you want to save `FBP.sln`
-
-Say `Yes`, and it will prompt you with a sugested location.  Remove `FBPLibs\` from the suggested file name, and hit `Save`.
-
-Reopen Visual C#
+The "solution" line should now say 4 projects
 
 Do `Build Solution`
 
 If you only get warnings, you can proceed
 
-Testing your Solution
+Testing "Concord" (forms-based application)
 ---
 
 Right click on `Concord`; Debug/Start new instance
@@ -64,19 +49,10 @@ Here is the output of Concord:
 ![ConcordOutput](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordOutput.png "Output of Concordance")
 
 
-Adding "batch" project (MergeAndSort)
+Testing "MergeAndSort" (console application)
 ---
 
-Open Visual C#
-
-Go to "solution" line
-
-Add/Existing Project `TestNetworks/MergeAndSort/MergeAndSort.csproj` 
-
-Solution should now show "4 projects"
-
-
-To run it, right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
+Right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
 
 This network is an implementation in C#FBP of the one illustrated in https://github.com/jpaulm/javafbp/blob/master/README.md
 
