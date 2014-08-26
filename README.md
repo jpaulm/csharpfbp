@@ -29,9 +29,9 @@ Do `git clone https://github.com/jpaulm/csharpfbp`
 
 Now go into Visual C#, and `Open Project` `FBP.sln` (in the just cloned directory)
 
-The "solution" line should now say 4 projects
+There will be a "solution" line, followed by a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.
 
-Right click on this line, and do `Build Solution`
+Right click on the "solution" line, and do `Build Solution`
 
 If you only get warnings, you can proceed
 
