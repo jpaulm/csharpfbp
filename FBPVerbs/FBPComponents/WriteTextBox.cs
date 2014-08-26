@@ -16,7 +16,7 @@ namespace Components
 */
     [MustRun]
     [InPort("DESTINATION")]
-    [InPort("CONFIG")]
+    [InPort("CONFIG", optional = true)]
     [InPort("IN")]
     [OutPort("OUT")]
     [ComponentDescription("Write text to text box")]

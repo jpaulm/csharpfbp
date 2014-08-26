@@ -8,7 +8,7 @@ using FBPLib;
 namespace Components
 {
     [InPort("IN")]
-    [InPort("CONFIG")] 
+    [InPort("CONFIG", optional=true)] 
     [OutPort("OUT")]
     [ComponentDescription("Read name of input file from IN, output contents as blob to OUT")]
     public class ReadStreamBlob : Component
