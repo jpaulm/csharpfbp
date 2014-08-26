@@ -63,7 +63,8 @@ Here is the output of Concord:
 
 ![ConcordOutput](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordOutput.png "Output of Concordance")
 
-Adding some batch examples
+
+Adding "batch" project (MergeAndSort)
 ---
 
 Open Visual C#
@@ -74,7 +75,10 @@ Add/Existing Project `TestNetworks/MergeAndSort/MergeAndSort.csproj`
 
 Solution should now show "4 projects"
 
-Right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
+
+To run it, right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
+
+This network is an implementation in C#FBP of the one illustrated in https://github.com/jpaulm/javafbp/blob/master/README.md
 
 
 
