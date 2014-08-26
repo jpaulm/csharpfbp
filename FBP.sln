@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concord", "Concord\Concord.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergeAndSort", "TestNetworks\MergeAndSort\MergeAndSort.csproj", "{F6AB66E4-B307-457E-B608-16BDE9E127FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestLoadBalancer", "TestNetworks\TestLoadBalancer\TestLoadBalancer.csproj", "{33BFDFF7-F467-4DF5-A2A6-3566D875750B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,16 @@ Global
 		{F6AB66E4-B307-457E-B608-16BDE9E127FD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{F6AB66E4-B307-457E-B608-16BDE9E127FD}.Release|x86.ActiveCfg = Release|x86
 		{F6AB66E4-B307-457E-B608-16BDE9E127FD}.Release|x86.Build.0 = Release|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Debug|x86.ActiveCfg = Debug|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Debug|x86.Build.0 = Debug|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Release|Any CPU.ActiveCfg = Release|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Release|x86.ActiveCfg = Release|x86
+		{33BFDFF7-F467-4DF5-A2A6-3566D875750B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
