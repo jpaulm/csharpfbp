@@ -810,6 +810,7 @@ namespace FBPLib
 
         bool ListCompStatus(List<String> msgs)
         {
+            bool terminated = true;
             lock (this)
             {
                 foreach (Component comp in _components.Values)
@@ -827,6 +828,8 @@ namespace FBPLib
                             return false;
                         }
 
+                        if (comp.Status != States.Terminated)
+                            terminated = false;
                         string st = Enum.GetName(typeof(States), comp._status);
                         st = (st + "            ").Substring(0, 13);
                         msgs.Add(String.Format("--- {1}     {0}", Name + "." + comp.Name, st));
@@ -834,7 +837,7 @@ namespace FBPLib
                 }
 
 
-                return true;
+                return !terminated;
             }
         }
         // called by WaitForAll method
