@@ -1051,8 +1051,9 @@ namespace FBPLib
                         if (port is InitializationConnection)
                         {
                             InitializationConnection icx = port as InitializationConnection;
-                            if (!icx.IsClosed())
-                                FlowError.Complain("Component deactivated with IIP port not closed: " + icx.Name);
+                            //if (!icx.IsClosed())
+                            //    FlowError.Complain("Component deactivated with IIP port not closed: " + icx.Name);
+                            icx.Close();
                         }
                     }
                     MustRun = false;
