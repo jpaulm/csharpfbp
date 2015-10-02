@@ -9,6 +9,8 @@ namespace Components
 
 /** Component to assign incoming packets to the output port that has the
 * smallest backlog of packets waiting to be processed.
+*
+* Modified to keep all of a given substream on one output port element - Oct. 2015
 */
 
 [InPort("IN")]
@@ -17,7 +19,7 @@ namespace Components
 public class LoadBalance : Component {
 
 internal static string _copyright =
-                "Copyright 2007, 2008, 2009, J. Paul Morrison.  At your option, you may copy, " +
+                "Copyright 2007, 2008, 2015, J. Paul Morrison.  At your option, you may copy, " +
                 "distribute, or make derivative works under the terms of the Clarified Artistic License, " +
                 "based on the Everything Development Company's Artistic License.  A document describing " +
                 "this License may be found at http://www.jpaulmorrison.com/fbp/artistic2.htm. " +
@@ -32,18 +34,27 @@ internal static string _copyright =
 		int no = outportArray.Length;
 		Int32 backlog;
 		int sel = -1;
-
+            int substream_level = 0;
 	    Packet p;
 		while ((p = inport.Receive()) != null) {
-			backlog = Int32.MaxValue;
-			for (int i = 0; i < no; i++) {
-			    int j = outportArray[i].DownstreamCount();
-			    if (j < backlog) {
-				    backlog = j;
-				    sel = i;
-			        }
-			    }
-			    outportArray[sel].Send(p);
+                if (substream_level == 0)
+                {
+                    backlog = Int32.MaxValue;
+                    for (int i = 0; i < no; i++)
+                    {
+                        int j = outportArray[i].DownstreamCount();
+                        if (j < backlog)
+                        {
+                            backlog = j;
+                            sel = i;
+                        }
+                    }
+                }
+                if (p.Type == Packet.Types.Open)
+                    substream_level++;
+                else if (p.Type == Packet.Types.Close)
+                    substream_level--;
+                outportArray[sel].Send(p);
 
 			}
         
