@@ -9,7 +9,7 @@ namespace Components
 * via an InitializationConnection.
 */
     [InPort("SOURCE")]
-    [InPort("CONFIG")]
+    [InPort("CONFIG", optional = true)]
     [OutPort("OUT")]
     [ComponentDescription("Reads input from a character stream and outputs it line-by-line")]
     public class ReadText : Component

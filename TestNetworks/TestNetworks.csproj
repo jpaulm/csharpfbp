@@ -2,16 +2,15 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9E54FE0B-6B24-441B-9747-6A1920BF941A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{E7F8E2A1-F217-4402-B20E-0ACB19024434}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Concord</RootNamespace>
-    <AssemblyName>Concord</AssemblyName>
+    <RootNamespace>TestNetworks</RootNamespace>
+    <AssemblyName>TestNetworks</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -29,8 +28,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -39,8 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -48,45 +45,43 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="NetDefn.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Networks\DropOldest.cs" />
+    <Compile Include="Networks\Copy1.cs" />
+    <Compile Include="Networks\CopyFileToCons.cs" />
+    <Compile Include="Networks\Deadlock.cs" />
+    <Compile Include="Networks\InfiniteQueue.cs" />
+    <Compile Include="Networks\MergeAndSort.cs" />
+    <Compile Include="Networks\NoDeadlock.cs" />
+    <Compile Include="Networks\ReceiveFromSocket.cs" />
+    <Compile Include="Networks\SubnetD.cs" />
+    <Compile Include="Networks\SubnetX.cs" />
+    <Compile Include="Networks\TestArrayPorts.cs" />
+    <Compile Include="Networks\TestDeadlockDetection.cs" />
+    <Compile Include="Networks\TestInfQueue.cs" />
+    <Compile Include="Networks\TestLoadBalancer.cs" />
+    <Compile Include="Networks\TestMixedInput.cs" />
+    <Compile Include="Networks\TestNestedSubstreams.cs" />
+    <Compile Include="Networks\TestNullOutputPort.cs" />
+    <Compile Include="Networks\TestPassthrus.cs" />
+    <Compile Include="Networks\TestRunExe.cs" />
+    <Compile Include="Networks\TestSockets.cs" />
+    <Compile Include="Networks\TestTune.cs" />
+    <Compile Include="Networks\TSS.cs" />
+    <Compile Include="Networks\Update.cs" />
+    <Compile Include="Networks\VolumeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FBPLib\FBPLib.csproj">
@@ -99,9 +94,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -119,13 +114,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="Resources\fake_cyrillic.txt" />
-    <Content Include="Resources\fake_hindi.txt" />
-    <Content Include="Resources\fake_japanese.txt" />
-    <Content Include="Resources\fake_latin.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

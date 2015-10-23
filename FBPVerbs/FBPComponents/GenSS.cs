@@ -43,18 +43,23 @@ namespace Components
 
             for (int i = 0; i < ct; i++)
             {
-                if (i % 20 == 4)
-                {
-                    p = Create(Packet.Types.Close, "");
-                    _outport.Send(p);
-                    p = Create(Packet.Types.Open, "");
-                    _outport.Send(p);
-                }
                 int j = 100 - i;
                 string s = String.Format("{0:d4}", j) + " abc";
 
                 p = Create(s);
                 _outport.Send(p);
+
+                if (i < ct - 1)   // prevent empty bracket pair at end
+                {
+                    if (i % 5 == 4)
+                    {
+                        p = Create(Packet.Types.Close, "");
+                        _outport.Send(p);
+                        p = Create(Packet.Types.Open, "");
+                        _outport.Send(p);
+                    }
+                }
+               
             }
             p = Create(Packet.Types.Close, "");
             _outport.Send(p);
