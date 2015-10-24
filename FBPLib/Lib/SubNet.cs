@@ -33,8 +33,8 @@ namespace FBPLib
                 //_network.Trace(this.Name + ": started");
                 _components.Clear();
                 //_tracing = _mother._tracing;                
-                //_traceFileList = _mother._traceFileList;
-                subEndPort = _outputPorts["*SUBEND"];
+                //_traceFileList = _mother._traceFileList;                
+                _outputPorts.TryGetValue("*SUBEND", out subEndPort);
 
                 try
                 {
