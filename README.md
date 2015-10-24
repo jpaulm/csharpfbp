@@ -58,7 +58,18 @@ This network is an implementation in C#FBP of the one illustrated in https://git
 Other Tests
 ------
 
-In addition to `Concord` and `MergeAndSort`, a number of networks have been grouped under "FBPTest". Right-clicking on `FBPTest` and selecting Debug will bring up a panel containing over a dozen buttons, each of which will trigger a C#FBP network. 
+In addition to `Concord` and `MergeAndSort`, a number of networks have been grouped under "FBPTest". Right-clicking on `FBPTest` and selecting Debug will bring up a panel containing over a dozen buttons, each of which will trigger a C#FBP network.
+
+At the end of each run, you should see something like:
+
+    Run complete.  Time: x.xxx seconds
+    Counts: C: xx, D: xx, S: xx, R (non-null): xx, DO: xx
+    
+where the counts (`xx`) are respectively: creates, normal drops, sends, non-null receives, and drops done by "drop oldest".   
+
+Warning!
+-----
+Care must be taken if combining LoadBalance (with substreams) and SubstreamSensitiveMerge in a divergent-convergent pattern - this pattern is one of the warning signals for deadlocks anyway. The problem is described in more detail under https://github.com/jpaulm/javafbp/issues/8.
 
 Tracing
 -------
