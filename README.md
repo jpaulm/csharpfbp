@@ -60,3 +60,5 @@ Tracing
 
 To enable tracing, right click on the `FBPLib` project, then go into Settings - you will see two boolean variables: `Tracing` and `DeadlockTestEnabled` - set them as desired.
 
+If enabled, the trace will be found in `C:\Temp\xxxx-fulltrace.txt`, where `xxxx` is the name of the test being run.  Subnets have their own files.
+
