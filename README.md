@@ -55,10 +55,15 @@ Right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
 
 This network is an implementation in C#FBP of the one illustrated in https://github.com/jpaulm/javafbp/blob/master/README.md
 
+Other Tests
+------
+
+In addition to `Concord` and `MergeAndSort`, a number of networks have been grouped under "FBPTest". Right-clicking on `FBPTest` and selecting Debug will bring up a panel containing over a dozen buttons, each of which will trigger a C#FBP network. 
+
 Tracing
 -------
 
 To enable tracing, right click on the `FBPLib` project, then go into Settings - you will see two boolean variables: `Tracing` and `DeadlockTestEnabled` - set them as desired.
 
-If enabled, the trace will be found in `C:\Temp\xxxx-fulltrace.txt`, where `xxxx` is the name of the test being run.  Subnets have their own files.
+If enabled, the trace will be found in `C:\Temp\xxxx-fulltrace.txt`, where `xxxx` is the name of the test being run.  Subnets have their own files, with a qualified name, e.g. `TestInfQueue.InfiniteQueue-fulltrace.txt`.
 
