@@ -30,13 +30,9 @@ Create empty `csharpfbp` directory in your local GitHub directory
 
 Do `git clone https://github.com/jpaulm/csharpfbp`
 
-Now go into Visual C#, and `Open Project` `FBP.sln` (in the just cloned directory)
+Now go into Visual C#, and `Open Project` `CsharpFBP.sln` (in the just cloned directory)
 
-There will be a "solution" line, followed by a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.
-
-Right click on the "solution" line, and do `Build Solution`
-
-If you only get warnings, you can proceed
+Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.
 
 Testing "Concord" (forms-based application)
 ---
@@ -59,5 +55,10 @@ Right click on `MergeAndSort` in Solution Explorer; Debug/Start new instance
 
 This network is an implementation in C#FBP of the one illustrated in https://github.com/jpaulm/javafbp/blob/master/README.md
 
+Tracing
+-------
 
+To enable tracing, right click on the `FBPLib` project, then go into Settings - you will see two boolean variables: `Tracing` and `DeadlockTestEnabled` - set them as desired.
+
+If enabled, the trace will be found in `C:\Temp\xxxx-fulltrace.txt`, where `xxxx` is the name of the test being run.  Subnets have their own files.
 
