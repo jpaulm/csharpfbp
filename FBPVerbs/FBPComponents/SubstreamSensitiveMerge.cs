@@ -25,21 +25,32 @@ namespace Components
         {
             int no = _inportArray.Length;
 
-            Packet p;
+            Packet p = null;
             int i = -1;
             int substream_level = 0;
             while (true)
             {
-                if (substream_level == 0)
+                if (substream_level != 0)
                 {
-                    
-                    i = FindInputPortElementWithData(_inportArray);
-                   
-                    // will suspend if all elements empty but not drained
-                    if (i == -1) // all elements are drained
-                        return;
+                    p = _inportArray[i].Receive();
+                    if (p == null)
+                        break;
                 }
-                p = _inportArray[i].Receive();
+                else
+                {
+                    while (true)
+                    {
+                        i = FindInputPortElementWithData(_inportArray);
+
+                        // will suspend if all elements empty but not drained
+                        if (i == -1) // all elements are drained
+                            return;
+                        p = _inportArray[i].Receive();
+                        if (p != null)
+                            break;
+                    }
+                }
+                //p = _inportArray[i].Receive();
                 if (p.Type == Packet.Types.Open)
                     substream_level++;
                 else if (p.Type == Packet.Types.Close)
