@@ -830,9 +830,12 @@ namespace FBPLib
 
                         if (comp.Status != States.Terminated)
                             terminated = false;
+                        string compPort = comp.Name;
+                        if (comp.Status == States.SuspRecv || comp.Status == States.SuspSend)
+                            compPort += "." + comp.currPort;
                         string st = Enum.GetName(typeof(States), comp._status);
                         st = (st + "            ").Substring(0, 13);
-                        msgs.Add(String.Format("--- {1}     {0}", Name + "." + comp.Name, st));
+                        msgs.Add(String.Format("--- {0}     {1}", st, compPort));
                     }
                 }
 

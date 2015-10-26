@@ -359,7 +359,7 @@ namespace FBPLib
         protected Stack _stack;
         internal enum States
         {
-            NotStarted, Active, Dormant, SuspRecv, SuspSend,
+            NotStarted, Active, Dormant, SuspRecv, SuspSend, SuspFIPE,
             Terminated, LongWait, Error
         }
 
@@ -394,6 +394,8 @@ namespace FBPLib
         public Object _lockObject;
 
         internal Network _mother;
+
+        public string currPort;
 
 
         internal ThreadPriority _priority = ThreadPriority.Normal;
@@ -925,7 +927,7 @@ namespace FBPLib
 
                             try
                             {                               
-                                Status = States.SuspRecv;
+                                Status = States.SuspFIPE;
                                 _mother.Trace(Name + ": find IPE with data");
 
                                 Monitor.Wait(_lockObject);

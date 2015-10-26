@@ -240,7 +240,7 @@ namespace FBPLib
                 while (IsEmpty())
                 {
                     _receiver.Status = Component.States.SuspRecv;
-
+                    _receiver.currPort = Name; 
                     Trace("Recv/susp");
 
                     try
@@ -331,6 +331,7 @@ namespace FBPLib
                     else
                     {
                         _sender.Status = Component.States.SuspSend;
+                        _sender.currPort = Name;
                         
                         _sender._mother.Trace("{0}: Send/susp", _sender.Name);
                         try
