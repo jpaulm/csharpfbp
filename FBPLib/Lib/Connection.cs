@@ -150,7 +150,8 @@ namespace FBPLib
                         if (IsDrained())
                         {
                             if (_receiver.Status == Component.States.Dormant ||
-                                _receiver.Status == Component.States.NotStarted)
+                                _receiver.Status == Component.States.NotStarted ||
+                                _receiver.Status == Component.States.SuspFIPE)
                                 _receiver.Activate();
                             else
                                 System.Threading.Monitor.PulseAll(this);
@@ -331,7 +332,7 @@ namespace FBPLib
                     else
                     {
                         _sender.Status = Component.States.SuspSend;
-                        _sender.currPort = Name;
+                        _sender.currPort = op.Name;
                         
                         _sender._mother.Trace("{0}: Send/susp", _sender.Name);
                         try

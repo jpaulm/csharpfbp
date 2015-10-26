@@ -460,10 +460,8 @@ namespace FBPLib
                 try
                 {
                     Monitor.Enter(_lockObject);
-                    if (Status == States.Dormant)
-
-                        //_event_dormant.Set();
-                        //Monitor.Pulse((_inputPorts as ICollection).SyncRoot);
+                    if (Status == States.Dormant || Status == States.SuspFIPE)
+                        
                         Monitor.Pulse(_lockObject);
                 }
                 finally
@@ -897,8 +895,8 @@ namespace FBPLib
                 try
                 {
                     Monitor.Enter(_lockObject);
-                    lock (this)
-                    {
+                    //lock (this)
+                    //{
                         bool allDrained = true;
                         for (int i = 0; i < ports.Length; i++)
                         {
@@ -925,8 +923,8 @@ namespace FBPLib
                         else
                         {
 
-                            try
-                            {                               
+                            //try
+                            //{                               
                                 Status = States.SuspFIPE;
                                 _mother.Trace(Name + ": find IPE with data");
 
@@ -934,14 +932,14 @@ namespace FBPLib
                                 Status = States.Active;
                                 _mother.Trace("{0}: Active", Name);
                                 
-                            }
-                            finally
-                            {                                                               
-                                Status = States.Active;
-                                _mother.Trace(Name + ": Active");
-                            }
+                            //}
+                            //finally
+                            //{                                                               
+                            //    Status = States.Active;
+                             //   _mother.Trace(Name + ": Active");
+                            //}
                         }
-                    }
+                  //  }
                 }
 
                 finally
