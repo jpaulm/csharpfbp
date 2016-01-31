@@ -34,7 +34,7 @@ Now go into Visual C#, and `Open Project` `CsharpFBP.sln` (in the just cloned di
 
 Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.
 
-Testing "Concord" (forms-based application)
+Testing "Concord" (forms-based Windows application)
 ---
 
 Right click on `Concord`; Debug/Start new instance
@@ -58,7 +58,9 @@ This network is an implementation in C#FBP of the one illustrated in https://git
 Other Tests
 ------
 
-In addition to `Concord` and `MergeAndSort`, a number of networks have been grouped under "FBPTest". Right-clicking on `FBPTest` and selecting Debug will bring up a panel containing over a dozen buttons, each of which will trigger a C#FBP network.
+"FBPTest" (forms-based Windows application)
+
+A number of console application networks have been grouped under "FBPTest". Right-clicking on `FBPTest` and selecting Debug will bring up a panel containing over a dozen buttons, each of which will trigger a C#FBP network.
 
 At the end of each run, you should see something like:
 
