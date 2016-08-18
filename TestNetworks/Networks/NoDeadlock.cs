@@ -26,7 +26,7 @@ so that it doesn't deadlock */
 			Port("OUT"),
 			Component("Splitter1", typeof(Splitter1)),
 			Port("IN"));
-        Object d = (Object)@"..\..\tune.txt";
+        Object d = (Object)@"..\..\mfile";
         Initialize(d,
 			Component("Read"),
 			Port("SOURCE"));

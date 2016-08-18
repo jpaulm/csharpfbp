@@ -25,7 +25,7 @@ namespace TestNetworks.Networks
 			Port("OUT"),
 			Component("ReplString", typeof(ReplString)),
 			Port("IN"));
-        Object d = (Object)@"..\..\tune.txt";
+        Object d = (Object)@"..\..\mfile";
         Initialize(d,
 			Component("Read"),
 			Port("SOURCE"));
