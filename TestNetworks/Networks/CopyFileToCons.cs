@@ -1,7 +1,7 @@
 using System;
-using System.IO;
 using FBPLib;
 using Components;
+
 
 namespace TestNetworks.Networks
 {
@@ -19,16 +19,13 @@ namespace TestNetworks.Networks
         public override void Define() /* throws Throwable */ {
 		Connect(Component("Read", typeof(ReadText)),
 			Port("OUT"),
-			Component("Write", typeof(WriteText)),
+			Component("Write", typeof(WriteToConsole)),
 			Port("IN"));
         Object d = (Object)@"..\..\mfile";
         Initialize(d,
 			Component("Read"),
 			Port("SOURCE"));
-        Stream st = Console.OpenStandardOutput();
-		Initialize(st,
-			Component("Write"),
-			Port("DESTINATION"));
+        
 		}
 	internal static void main(String[] argv) {
 		new CopyFileToCons().Go();

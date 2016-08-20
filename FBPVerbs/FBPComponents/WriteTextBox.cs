@@ -1,9 +1,7 @@
 using System;
-using System.IO;
 using FBPLib;
-using System.Threading;
 using System.Windows.Forms;
-using System.Drawing;
+
 
 
 namespace Components

@@ -123,7 +123,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Resources\fake_cyrillic.txt" />
-    <Content Include="Resources\fake_hindi.txt" />
     <Content Include="Resources\fake_japanese.txt" />
     <Content Include="Resources\fake_latin.txt" />
   </ItemGroup>

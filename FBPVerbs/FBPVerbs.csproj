@@ -74,6 +74,7 @@
     <Compile Include="FBPComponents\Tune.cs" />
     <Compile Include="FBPComponents\WriteText.cs" />
     <Compile Include="FBPComponents\WriteTextBox.cs" />
+    <Compile Include="FBPComponents\WriteToConsole.cs" />
     <Compile Include="FBPComponents\WriteToSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

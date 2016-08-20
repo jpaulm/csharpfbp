@@ -71,7 +71,7 @@ namespace TestNetworks
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             (new MergeAndSort()).Go();
-            Console.Read();
+            //Console.Read();
         }
         
     }
