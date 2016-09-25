@@ -39,7 +39,7 @@ Go into Solution Explorer, where you will see a number of "projects" - two of wh
 
 Concord is a network that creates a "concordance" from arbitrary text: a list of each word, surrounded by a number of the actual characters surrounding it - then with the words sorted in alphabetic sequence.  Here is the diagram for Concord, created using DrawFBP (https://github.com/jpaulm/drawfbp ):
 
-![ConcordOutput](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordVS.png "Diagram for Concord")
+![ConcordDiagram](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordVS.png "Diagram for Concord")
 
 Testing "Concord"
 -----
