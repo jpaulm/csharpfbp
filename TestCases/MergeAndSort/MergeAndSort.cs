@@ -24,7 +24,7 @@ namespace TestNetworks
             Component("Passthru", typeof(Passthru));
             Component("Passthru2", typeof(Passthru));
             Component("Sort", typeof(Sort));
-            Component("Write", typeof(WriteText));
+            Component("Write", typeof(WriteToConsole));
 
             Connect(Component("Generate"),
                 Port("OUT"),
@@ -52,14 +52,14 @@ namespace TestNetworks
                 Component("Write"),
                Port("IN"));
 
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st,
-                Component("Write"),
-                Port("DESTINATION"));
+            //Stream st = Console.OpenStandardOutput();
+            //Initialize(st,
+             //   Component("Write"),
+            //    Port("DESTINATION"));
             
-            Initialize("500",
-                Component("Write"),
-                Port("CONFIG"));
+            //Initialize("500",
+           //     Component("Write"),
+           //     Port("CONFIG"));
 
         }
         /// <summary>

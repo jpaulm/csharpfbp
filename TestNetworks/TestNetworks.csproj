@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Networks\TestLoadBalanceWithSubstreams.cs" />
     <Compile Include="Networks\DropOldest.cs" />
     <Compile Include="Networks\Copy1.cs" />
     <Compile Include="Networks\CopyFileToCons.cs" />

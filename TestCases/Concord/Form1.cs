@@ -13,7 +13,7 @@ namespace Concord
 {
     public partial class Form1 : Form
     {
-        Network net = new NetDefn();
+        Network net = new Concordance();
 
         public Form1()
         {

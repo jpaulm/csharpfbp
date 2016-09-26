@@ -21,7 +21,7 @@ namespace TestNetworks.Networks
            // Component("Generate", typeof(Generate));
           //  Component("WS", typeof(WriteToSocket));
             Component("RS", typeof(ReadFromSocket));
-            Component("Display", typeof(WriteText));
+            Component("Display", typeof(WriteToConsole));
             
           //  Connect("Generate.OUT", "WS.IN");
             Connect("RS.OUT", "Display.IN");
@@ -30,10 +30,10 @@ namespace TestNetworks.Networks
            //     Component("Generate"),
           //      Port("COUNT"));
 
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st,
-                Component("Display"),
-                Port("DESTINATION"));
+            //Stream st = Console.OpenStandardOutput();
+            //Initialize(st,
+           //     Component("Display"),
+           //     Port("DESTINATION"));
 
 
          //   Initialize("4444",

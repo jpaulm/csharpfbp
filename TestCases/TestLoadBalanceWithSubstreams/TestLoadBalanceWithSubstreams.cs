@@ -26,7 +26,7 @@ namespace TestNetworks
 
             int multiplex_factor = 6;
             Component("generate", typeof(GenSS));
-            Component("display", typeof(WriteText));
+            Component("display", typeof(WriteToConsole));
             Component("lbal", typeof(LoadBalance));
             Component("SSMerge", typeof(SubstreamSensitiveMerge));
             Connect("generate.OUT", "lbal.IN", 4);
@@ -37,10 +37,10 @@ namespace TestNetworks
                 Connect(Component("passthru" + i), Port("OUT"), Component("SSMerge"),Port("IN", i), 1);
             }
             Connect("SSMerge.OUT", "display.IN", 4);
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st,
-                Component("display"),
-                Port("DESTINATION"));
+            //Stream st = Console.OpenStandardOutput();
+            //Initialize(st,
+            //    Component("display"),
+            //    Port("DESTINATION"));
         }
         [STAThread]
         static void Main()

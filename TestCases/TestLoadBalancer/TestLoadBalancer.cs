@@ -26,7 +26,7 @@ namespace TestNetworks
 
             int multiplex_factor = 10;
             Component("generate", typeof(GenerateTestData));
-            Component("display", typeof(WriteText));
+            Component("display", typeof(WriteToConsole));
             Component("lbal", typeof(LoadBalance));
             Connect("generate.OUT", "lbal.IN");
             Initialize("100", Component("generate"), Port("COUNT"));
@@ -35,10 +35,10 @@ namespace TestNetworks
                 Connect(Component("lbal"), Port("OUT", i), Component("passthru" + i, typeof(Passthru)), Port("IN"));
                 Connect(Component("passthru" + i), Port("OUT"), "display.IN");
             }
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st,
-                Component("display"),
-                Port("DESTINATION"));
+            //Stream st = Console.OpenStandardOutput();
+           // Initialize(st,
+            //    Component("display"),
+             //   Port("DESTINATION"));
         }
         [STAThread]
         static void Main()

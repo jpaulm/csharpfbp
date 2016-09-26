@@ -37,7 +37,7 @@ namespace TestNetworks.Networks
                 Component("Generate"),
                 Port("COUNT"));
 
-            Stream st = Console.OpenStandardOutput();
+            //Stream st = Console.OpenStandardOutput();
             //Initialize(st,
              //  Component("Display"),
             //    Port("DESTINATION"));

@@ -24,7 +24,7 @@ namespace TestNetworks.Networks
         
         Connect(Component("Generate", typeof(GenerateTestData)),
 			Port("OUT"),
-            Component("Write", typeof(WriteText)),
+            Component("Write", typeof(WriteToConsole)),
 			Port("IN"));
         
         
@@ -32,13 +32,13 @@ namespace TestNetworks.Networks
 			Component("Generate"),
 			Port("COUNT"));
 
-        Stream st = Console.OpenStandardOutput();
-		Initialize(st,
-			Component("Write"),
-            Port("DESTINATION"));
-        Initialize("", 
-            Component("Write"),
-            Port("FLUSH"));
+        //Stream st = Console.OpenStandardOutput();
+		//Initialize(st,
+		//	Component("Write"),
+        //    Port("DESTINATION"));
+        //Initialize("", 
+       //     Component("Write"),
+       //     Port("FLUSH"));
 		
 	
 		}

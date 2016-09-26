@@ -74,6 +74,7 @@ namespace FBPLib
         internal Connection(int size)
         {
             _buffer = new PacketBuffer(size);
+            _buffer._cnxt = this;
         }
         /// <summary>Invoked to tell us we have a(nother) sender.
         /// </summary>

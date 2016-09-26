@@ -37,7 +37,7 @@ namespace TestNetworks.Networks
 		
 		Connect(Component("Concatenate"),
 			Port("OUT"),
-            Component("Write", typeof(WriteText)),
+            Component("Write", typeof(WriteToConsole)),
 			Port("IN"));
 
 		Connect(Component("Splitter1"),
@@ -50,10 +50,10 @@ namespace TestNetworks.Networks
 			Component("Concatenate"),
             Port("IN", 1));
 		
-	    Stream st = Console.OpenStandardOutput();
-		Initialize(st,
-			Component("Write"),
-			Port("DESTINATION"));	
+	    //Stream st = Console.OpenStandardOutput();
+		//Initialize(st,
+		//	Component("Write"),
+		//	Port("DESTINATION"));	
 		
 		
 		}

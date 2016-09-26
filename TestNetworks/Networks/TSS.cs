@@ -22,8 +22,8 @@ namespace TestNetworks.Networks
 
             Component("Generate", typeof(GenSS));
             Component("Subnet", typeof(SubnetX));
-            Component("Display", typeof(WriteText));
-            Component("Display2", typeof(WriteText));
+            Component("Display", typeof(WriteToConsole));
+            Component("Display2", typeof(WriteToConsole));
             //Component("Discard", typeof(Discard));
 
             Connect("Generate.OUT", "Subnet.IN");
@@ -34,13 +34,13 @@ namespace TestNetworks.Networks
                 Component("Generate"),
                 Port("COUNT"));
 
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st,
-                Component("Display"),
-                Port("DESTINATION"));
-            Initialize(st,
-                Component("Display2"),
-                Port("DESTINATION"));
+            //Stream st = Console.OpenStandardOutput();
+            //Initialize(st,
+            //    Component("Display"),
+             //   Port("DESTINATION"));
+            //Initialize(st,
+           //     Component("Display2"),
+            //    Port("DESTINATION"));
 
         }
     }

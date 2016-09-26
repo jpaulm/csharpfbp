@@ -22,7 +22,7 @@ namespace TestNetworks.Networks
             
             Component("Generate", typeof(GenerateTestData));
             Component("InfiniteQueue", typeof(InfiniteQueue));
-            Component("Display", typeof(WriteText));
+            Component("Display", typeof(WriteToConsole));
             
             Connect("Generate.OUT", "InfiniteQueue.IN");
             Connect("InfiniteQueue.OUT", "Display.IN");
@@ -31,10 +31,10 @@ namespace TestNetworks.Networks
                 Component("Generate"),
                 Port("COUNT"));
             
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st,
-                Component("Display"),
-                Port("DESTINATION"));
+            //Stream st = Console.OpenStandardOutput();
+            //Initialize(st,
+            //    Component("Display"),
+            //    Port("DESTINATION"));
 
             Initialize(filename, "InfiniteQueue.READFILE");
             Initialize(filename, "InfiniteQueue.WRITEFILE");

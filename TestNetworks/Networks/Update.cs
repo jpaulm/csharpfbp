@@ -26,14 +26,14 @@ namespace TestNetworks.Networks
             Component("@Read@ Master (1)", typeof(ReadText));
             Component("@Read@ Details (2)", typeof(ReadText));
             Component("@@Collate (3)", typeof(Collate));
-            Component("@@Display (4)", typeof(WriteText));
+            Component("@@Display (4)", typeof(WriteToConsole));
             Connect("@Read@ Master (1).OUT", "@@Collate (3).IN[0]");
             Connect("@Read@ Details (2).OUT", "@@Collate (3).IN[1]");
             Connect("@@Collate (3).OUT", "@@Display (4).IN");
             Initialize(@"..\..\mfile", "@Read@ Master (1).SOURCE");
             Initialize(@"..\..\dfile", "@Read@ Details (2).SOURCE");
-            Stream st = Console.OpenStandardOutput();
-            Initialize(st, "@@Display (4).DESTINATION");
+            //Stream st = Console.OpenStandardOutput();
+            //Initialize(st, "@@Display (4).DESTINATION");
 
             Initialize("3,2,5", "@@Collate (3).CTLFIELDS");
 

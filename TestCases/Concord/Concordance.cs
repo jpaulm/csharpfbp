@@ -5,18 +5,17 @@ using System.Windows.Forms;
 
 namespace Concord
 {
-    class NetDefn : Network
+    class Concordance : Network
     {
        public override void Define()
         {
-            // StringWriter SwOut = new StringWriter();
-            //string Filename = @"..\..\..\concord.txt";
+            
             Component("Dir1", typeof(DirList));
             Component("Match", typeof(Match));
             Component("Show3", typeof(WriteTextBox));
             Component("Read", typeof(ReadStreamBlob));
             Component("Clean", typeof(CleanBlob));
-            Component("Words", typeof(TextToWords));
+            Component("Words", typeof(TextToWords));  // drop words of 3 characters or less
             Component("DisplayWords", typeof(DisplayWords));
             Component("Sort", typeof(Sort));
             Component("Format", typeof(FormatConcord));
@@ -24,7 +23,7 @@ namespace Concord
             Component("Show2", typeof(WriteTextBox));
 
             Initialize(@"..\..\..\Concord\Resources", "Dir1.IN");
-            Initialize(@"fake_cy", "Match.CONFIG");
+            Initialize(@"fake_la", "Match.CONFIG");
             Initialize(@"5,50", "Format.CONFIG");
             TextBox tb = parms[0] as TextBox;
             TextBox tb2 = parms[1] as TextBox;
