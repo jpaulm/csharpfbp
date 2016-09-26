@@ -34,8 +34,15 @@ Now go into Visual C#, and `Open Project` `CsharpFBP.sln` (in the just cloned di
 
 Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.
 
-Testing "Concord" (forms-based Windows application)
+"Concord" (forms-based Windows application)
 ---
+
+Concord is a network that creates a "concordance" from arbitrary text: a list of each word, surrounded by a number of the actual characters surrounding it - then with the words sorted in alphabetic sequence.  Here is the diagram for Concord, created using DrawFBP (https://github.com/jpaulm/drawfbp ):
+
+![ConcordDiagram](https://github.com/jpaulm/csharpfbp/blob/master/docs/ConcordVS.png "Diagram for Concord")
+
+Testing "Concord"
+-----
 
 Right click on `Concord`; Debug/Start new instance
 
