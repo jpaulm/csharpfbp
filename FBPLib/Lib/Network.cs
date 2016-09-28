@@ -95,12 +95,14 @@ namespace FBPLib
         List<String> _msgs = null;
         public static bool _tracing;
         public static String _tracePath;
-        public StreamWriter _traceWriter;
+        //public StreamWriter _traceWriter;
         public bool _useConsole = false;
         public static bool _forceConsole = false;
-        public static List<StreamWriter> _traceFileList = null;
+        //public static List<StreamWriter> _traceFileList = null;
         public static int sends, receives, creates, drops, dropOlds;
         ArrayList selfStarters = new ArrayList();    // JPM added
+
+        private static Dictionary<string, StreamWriter> _traceFileDictionary;  // TF
 
         Object _traceObject = new Object();   // JPM added
 
@@ -519,49 +521,39 @@ namespace FBPLib
             InitBlock();   // moved up
 
             DateTime now = DateTime.Now;
-            _traceFileList = new List<StreamWriter>();
+            // _traceFileList = new List<StreamWriter>();
+            _traceFileDictionary = new Dictionary<string, StreamWriter>();
 
-            Settings d = Settings.Default;
-            _tracing = d.Tracing;  // get value from Properties for FBPLib
+            //Settings d = Settings.Default;
+            // _tracing = d.Tracing;  // get value from Properties for FBPLib
 
-            
+            /*
 
             if (_tracing && !_forceConsole && !_useConsole)
             {
-               string s = _tracePath + Name + "-fulltrace.txt";
-               try
-                {  
-                 // Close in case still open                   JPM
-                    StreamWriter f = File.CreateText(s);       // JPM
-                    f.Close();
-                    //Thread.Sleep(250);
-                // Delete the file if it exists.
-                if (File.Exists(s))
+                try
                 {
-                    File.Delete(s);
+                    //instantiate one _traceWriter for each level of the Network and its SubNets
+                    lock (_traceObject)
+                    {
+                        var newTw = GetOrMakeTraceWriter(n);
+                    }
+                    Trace($"Trace file = {s}");
                 }
-                FileStream fs;
-               
-                fs = new FileStream(s, FileMode.OpenOrCreate, FileAccess.Write);
-                _traceWriter = new StreamWriter(fs);
-                _traceFileList.Add(_traceWriter);
-                }
-                catch (IOException e)
+                catch (Exception e)
                 {
-                    // file cannot be created or opened - disable tracing
-                    // _tracing = false;
-                    //lock (_network)
-                    //{
-                        Console.Out.WriteLine("Trace file " + s + " could not be opened - \n" +
-                        "   writing to console...");
-                        //Console.Out.WriteLine(dt + " " + n + ": " + msg);
+                    // file cannot be created or opened, so _useConsole
+                    lock (_network) // TODO: review is this lock really needed?
+                    {
+                        Console.Out.WriteLine("Trace file [" + s + "]\n could not be opened, so writing all tracing to console...");
                         Console.Out.Flush();
-                    //}
-                    _useConsole = true;
-                    return;
+                        _useConsole = true;
+                    }
+                    throw; // Temporary, to know it happened.  TODO: review this
                 }
-                
             }
+
+            */
 
             //InitBlock();
             _mainthread = new Thread(delegate()
@@ -977,6 +969,8 @@ namespace FBPLib
 
                     string n = GetTracingName();
 
+                    var _traceWriter = GetOrMakeTraceWriter(n);
+
                     // forceConsole is used for debugging purposes to force writing to the console
                     // useConsole will be set to true if the trace file could not be opened
                     if (_forceConsole || _useConsole)
@@ -1009,14 +1003,55 @@ namespace FBPLib
             }
         }
 
+        private static StreamWriter GetOrMakeTraceWriter(string n)
+        {
+            var s = _tracePath + n + "-fullTrace.txt";
+
+            if (_traceFileDictionary.ContainsKey(n))
+            {
+                return _traceFileDictionary[n];
+            }
+            // else make a new one
+            if (File.Exists(s))
+            {
+                // Delete the existing file (if it is not in use by another process http://stackoverflow.com/a/876513)
+                try
+                {
+                    // Close in case still open                   JPM
+                    using (StreamWriter f = File.CreateText(s))
+                    {
+                        f.Close();
+                    }
+
+                    File.Delete(s);
+                }
+                catch (IOException e)
+                {
+                    // TODO: why does TestDeadlockDetection-fullTrace.txt fail here, 
+                    // if it has not Terminated before running another Network.Go()?
+                    throw e; // TODO: consider incrementing the file name instead?
+                }
+            }
+            var fs = new FileStream(s, FileMode.OpenOrCreate, FileAccess.Write);
+            var traceWriter = new StreamWriter(fs);
+            _traceFileDictionary.Add(n, traceWriter);
+
+            return traceWriter;
+        }
+
         void CloseTraceFiles()
         {
             lock (_traceObject)
-                foreach (StreamWriter x in _traceFileList)
+            {
+                //foreach (StreamWriter x in _traceFileList)
+                foreach (KeyValuePair<string, StreamWriter> x in _traceFileDictionary)
                 {
-                    x.Close();   
+                    if (x.Value != null)
+                    {
+                        x.Value.Dispose();
+                    }
                 }
-
+            }
         }
 
         string GetTracingName()

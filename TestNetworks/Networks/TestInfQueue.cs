@@ -18,8 +18,13 @@ namespace TestNetworks.Networks
             * */
         public override void Define()
         {
-            string filename = @"..\..\infqueue.fil";
-            
+            const string fileName = @"C:\temp\infqueue.fil";
+            if (!File.Exists(fileName))
+            {
+                //throw new FileNotFoundException("\nFailed to find output file: " + infqFilePath);
+                File.Create(fileName);
+            }
+
             Component("Generate", typeof(GenerateTestData));
             Component("InfiniteQueue", typeof(InfiniteQueue));
             Component("Display", typeof(WriteToConsole));
@@ -36,8 +41,8 @@ namespace TestNetworks.Networks
             //    Component("Display"),
             //    Port("DESTINATION"));
 
-            Initialize(filename, "InfiniteQueue.READFILE");
-            Initialize(filename, "InfiniteQueue.WRITEFILE");
+            Initialize(fileName, "InfiniteQueue.READFILE");
+            Initialize(fileName, "InfiniteQueue.WRITEFILE");
 
         }
     }

@@ -26,24 +26,24 @@ namespace FBPLib.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool Tracing {
-            get {
-                return ((bool)(this["Tracing"]));
-            }
-            set {
-                this["Tracing"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool DeadlockTestEnabled {
             get {
                 return ((bool)(this["DeadlockTestEnabled"]));
             }
             set {
                 this["DeadlockTestEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Tracing {
+            get {
+                return ((bool)(this["Tracing"]));
+            }
+            set {
+                this["Tracing"] = value;
             }
         }
     }
