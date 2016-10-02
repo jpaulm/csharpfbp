@@ -32,7 +32,7 @@ namespace  FBPTest
         }
 
 
-        private void TIQ_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
             new TestInfQueue().Go();
         }
@@ -41,76 +41,77 @@ namespace  FBPTest
         {
             new MergeAndSort().Go();
         }
+               
 
-        
-        private void button5_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
 
             new CopyFileToCons().Go();
         }
         
-
-       // private void Form1_Load(object sender, EventArgs e)
-       // {
-
-       // }
-
-        private void button6_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e)
         {
             new Deadlock().Go();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button6_Click(object sender, EventArgs e)
         {
             new NoDeadlock().Go();
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button7_Click(object sender, EventArgs e)
         {
             new TestTune().Go();
         }
-        private void button4_Click(object sender, EventArgs e)
-        {
-            new TestPassthrus().Go();
-        }
-        private void button7_Click(object sender, EventArgs e)
-        {
-            new TSS().Go();
-        }
-        private void TAP_Click(object sender, EventArgs e)
-        {
-            new TestArrayPorts().Go();
-        }
-        private void button9_Click(object sender, EventArgs e)
-        {
-            new TestDeadlockDetection().Go();
-        }
-        private void button12_Click(object sender, EventArgs e)
-        {
-            new TestNestedSubstreams().Go();
-        }
-        private void button13_Click(object sender, EventArgs e)
-        {
-            new TestSockets().Go();
-        }
-        private void button10_Click(object sender, EventArgs e)
-        {
-            new TestLoadBalancer().Go();
-        }
-        private void button14_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)
         {
             new TestRunExe().Go();
         }
+        private void button9_Click(object sender, EventArgs e)
+        {
+            new TestLoadBalanceWRandDelay().Go();
+        }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            new TestPassthrus().Go();
+        }
         private void button11_Click(object sender, EventArgs e)
+        {
+            new TSS().Go();
+        }
+        private void button12_Click(object sender, EventArgs e)
+        {
+            new TestArrayPorts().Go();
+        }
+        private void button13_Click(object sender, EventArgs e)
+        {
+            new TestDeadlockDetection().Go();
+        }
+        private void button14_Click(object sender, EventArgs e)
+        {
+            new TestNestedSubstreams().Go();
+        }
+        private void button15_Click(object sender, EventArgs e)
+        {
+            new TestSockets().Go();
+        }
+        private void button16_Click(object sender, EventArgs e)
+        {
+            new TestLoadBalancer().Go();
+        }
+        
+        private void button17_Click(object sender, EventArgs e)
         {
             new VolumeTest().Go();
         }
 
-        private void btnDO_Click(object sender, EventArgs e)
+        private void button18_Click(object sender, EventArgs e)
         {
             new DropOldest().Go();
         }
+
         
+
     }
         
     

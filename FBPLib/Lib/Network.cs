@@ -64,8 +64,8 @@ namespace FBPLib
 
         protected internal static int PRODUCTIONSIZE = 10;
 
-        internal static int _defaultCapacity = DEBUGSIZE;       // change this when you go to production
-        //internal static int _defaultCapacity = PRODUCTIONSIZE; // use this one for production
+        //internal static int _defaultCapacity = DEBUGSIZE;       // change this when you go to production
+        internal static int _defaultCapacity = PRODUCTIONSIZE; // use this one for production
 
         //UPGRADE_NOTE: The initialization of  'components' was moved to method 'InitBlock'. 'ms-help://MS.VSCC/commoner/redir/redirect.htm?keyword="jlca1005"'
         internal Dictionary<string, Component> _components;
@@ -104,7 +104,7 @@ namespace FBPLib
 
         private static Dictionary<string, StreamWriter> _traceFileDictionary;  // TF
 
-        Object _traceObject = new Object();   // JPM added
+        public static Object _traceObject;   // JPM added
 
         public new void InitBlock()
         {
@@ -122,6 +122,7 @@ namespace FBPLib
             creates = 0;
             drops = 0;
             dropOlds = 0;
+            _traceObject = new object();  // JPM
 
             if (!(this is SubNet))  // i.e. Network only!
             {
@@ -604,14 +605,14 @@ namespace FBPLib
                 Console.Out.WriteLine("Counts: C: {0}, D: {1}, S: {2}, R (non-null): {3}, DO: {4}", creates, drops, sends, receives, dropOlds);
                 Console.Out.WriteLine("End of job");
 
-                lock(_traceObject)                  // add lock 
-                {
+                //lock(Network._traceObject)                  // add lock 
+                //{
                   //  Console.Out.Flush();  // Flush to write trace JPM
 
                 //Thread.Sleep(500);
 
                 CloseTraceFiles();  // JPM
-                }
+                //}
 
                
 
@@ -961,7 +962,7 @@ namespace FBPLib
         {
             if (_tracing)
             {
-                lock (_traceObject)
+                lock (Network._traceObject)
                 {
                     DateTime now = DateTime.UtcNow;
 
@@ -1041,7 +1042,7 @@ namespace FBPLib
 
         void CloseTraceFiles()
         {
-            lock (_traceObject)
+            lock (Network._traceObject)
             {
                 //foreach (StreamWriter x in _traceFileList)
                 foreach (KeyValuePair<string, StreamWriter> x in _traceFileDictionary)
@@ -1049,6 +1050,7 @@ namespace FBPLib
                     if (x.Value != null)
                     {
                         x.Value.Dispose();
+                        //_traceFileDictionary.Remove(x.Key);
                     }
                 }
             }
