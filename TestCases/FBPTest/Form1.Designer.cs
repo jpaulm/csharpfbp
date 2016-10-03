@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+
+
 namespace FBPTest
 {
     partial class Form1
@@ -49,9 +53,30 @@ namespace FBPTest
             "DropOldest"
             };
 
+            //There may be a better way to do this!
+
+            List<EventHandler> clicks = new List<EventHandler>();
+            clicks.Add(new EventHandler(this.button1_Click));
+            clicks.Add(new EventHandler(this.button2_Click));
+            clicks.Add(new EventHandler(this.button3_Click));
+            clicks.Add(new EventHandler(this.button4_Click));
+            clicks.Add(new EventHandler(this.button5_Click));
+            clicks.Add(new EventHandler(this.button6_Click));
+            clicks.Add(new EventHandler(this.button7_Click));
+            clicks.Add(new EventHandler(this.button8_Click));
+            clicks.Add(new EventHandler(this.button9_Click));
+            clicks.Add(new EventHandler(this.button10_Click));
+            clicks.Add(new EventHandler(this.button11_Click));
+            clicks.Add(new EventHandler(this.button12_Click));
+            clicks.Add(new EventHandler(this.button13_Click));
+            clicks.Add(new EventHandler(this.button14_Click));
+            clicks.Add(new EventHandler(this.button15_Click));
+            clicks.Add(new EventHandler(this.button16_Click));
+            clicks.Add(new EventHandler(this.button17_Click));
+            clicks.Add(new EventHandler(this.button18_Click));
+
             System.Windows.Forms.Button [] buttons  = new System.Windows.Forms.Button [names.Length];
-            int j = 0;
-            int k = 0;
+            int j = 0;            
 
             for (int i = 0; i < names.Length; i++)
             {
@@ -67,36 +92,14 @@ namespace FBPTest
                 button.Location = new System.Drawing.Point(m, j);
                 button.Name = names[i];
                 button.Size = new System.Drawing.Size(111, 23);
-                button.TabIndex = k;
+                button.TabIndex = i;
                 button.Text = names[i];
                 button.UseVisualStyleBackColor = true;
                 buttons[i] = button;
+                buttons[i].Click += clicks[i];
                 this.Controls.Add(buttons[i]);
                 j += 60;
-                k++;
             }
-
-            //There may be a better way to do this!
-
-            buttons[0].Click += new System.EventHandler(this.button1_Click);
-            buttons[1].Click += new System.EventHandler(this.button2_Click);
-            buttons[2].Click += new System.EventHandler(this.button3_Click);
-            buttons[3].Click += new System.EventHandler(this.button4_Click);
-            buttons[4].Click += new System.EventHandler(this.button5_Click);
-            buttons[5].Click += new System.EventHandler(this.button6_Click);
-            buttons[6].Click += new System.EventHandler(this.button7_Click);
-            buttons[7].Click += new System.EventHandler(this.button8_Click);
-            buttons[8].Click += new System.EventHandler(this.button9_Click);
-            buttons[9].Click += new System.EventHandler(this.button10_Click);
-            buttons[10].Click += new System.EventHandler(this.button11_Click);
-            buttons[11].Click += new System.EventHandler(this.button12_Click);
-            buttons[12].Click += new System.EventHandler(this.button13_Click);
-            buttons[13].Click += new System.EventHandler(this.button14_Click);
-            buttons[14].Click += new System.EventHandler(this.button15_Click);
-            buttons[15].Click += new System.EventHandler(this.button16_Click);
-            buttons[16].Click += new System.EventHandler(this.button17_Click);
-            buttons[17].Click += new System.EventHandler(this.button18_Click);
-
             
             // 
             // Form1
