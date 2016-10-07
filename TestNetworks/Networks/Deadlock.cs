@@ -45,12 +45,12 @@ namespace TestNetworks.Networks
 			Port("IN"));
 
 		Connect(Component("ReplString"),
-			Port("OUT", 2),
+			Port("OUT", 1),
 			Component("Concatenate"),
 			Port("IN", 1));
 		
 		Connect(Component("ReplString"),
-			Port("OUT", 1),
+			Port("OUT", 2),
 			Component("Concatenate"),
 			Port("IN", 2));
 		}
