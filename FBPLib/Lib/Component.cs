@@ -847,46 +847,51 @@ namespace FBPLib
 
             internal InputStates(Dictionary<string, IInputPort> inports, Component comp)
             {
-                
+
                 //lock ((inports as ICollection).SyncRoot)
                 //{
+                //try
+                //{
+                //Monitor.Enter(comp._lockObject);
+                while (true)
+                {
+                    allDrained = true;
+                    hasData = false;
+                    foreach (IInputPort inp in inports.Values)
+                        if (inp is Connection)
+                        {
+                            Connection c = inp as Connection;
+                            lock (c)    
+                            {
+                                //allDrained &= c.IsDrained();
+                                allDrained &= c._buffer._usedSlots == 0 && c._senderCount == 0;
+                                //hasData |= !c.IsEmpty();
+                                hasData |= c._buffer._usedSlots > 0;
+                            }
+
+                        }
+                    if (allDrained || hasData)
+                        break;
                     try
                     {
-                    Monitor.Enter(comp._lockObject);
-                    while (true)
-                        {
-                            allDrained = true;
-                            hasData = false;
-                            foreach (IInputPort inp in inports.Values)
-                                if (inp is Connection)
-                                {
-                                    Connection c = inp as Connection;
-                                    // lock (c)
-                                    // {
-                                    //allDrained &= c.IsDrained();
-                                    allDrained &= c._buffer._usedSlots == 0 && c._senderCount == 0;
-                                    // hasData |= !c.IsEmpty();
-                                    hasData |= c._buffer._usedSlots > 0;
-                                    // }
-                                }
-                            if (allDrained || hasData)
-                                break;
-                            comp._status = States.Dormant;
+                        Monitor.Enter(comp._lockObject);
+                        comp._status = States.Dormant;
 
-                            comp._mother.Trace("{0}: Dormant", comp.Name);
+                        comp._mother.Trace("{0}: Dormant", comp.Name);
 
-                            Monitor.Wait(comp._lockObject);
-                            comp.Status = States.Active;
-                            comp._mother.Trace("{0}: Active", comp.Name);
-                        }
+                        Monitor.Wait(comp._lockObject);
+                        comp.Status = States.Active;
+                        comp._mother.Trace("{0}: Active", comp.Name);
                     }
+
                     finally
                     {
                         Monitor.Exit(comp._lockObject);
                     }
                 }
             }
-        
+        }
+
 
         public int FindInputPortElementWithData(IInputPort[] ports)
         {
@@ -909,20 +914,18 @@ namespace FBPLib
                                 allDrained = false;
                                 if (!((Connection)ports[i]).IsEmpty())
                                 {
-                                    _mother.Trace(Name + ": Ending findPortWithData - returned: " + i);
-                                    //Monitor.Exit(_lockObject);
+                                    _mother.Trace(Name + ": Ending findPortWithData - returned: " + i);                                   
                                     return i;
                                 }
                             }
                         }
                         if (allDrained)
                         {
-                            _mother.Trace(Name + ": Ending findPortWithData - array port drained");
-                            //Monitor.Exit(_lockObject);
+                            _mother.Trace(Name + ": Ending findPortWithData - array port drained");                            
                             return -1;
                         }
-                        else
-                        {
+                      //  else
+                      //  {
 
                             //try
                             //{                               
@@ -939,7 +942,7 @@ namespace FBPLib
                             //    Status = States.Active;
                              //   _mother.Trace(Name + ": Active");
                             //}
-                        }
+                       // }
                   //  }
                 }
 

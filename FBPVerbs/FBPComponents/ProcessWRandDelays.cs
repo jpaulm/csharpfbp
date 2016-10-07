@@ -6,7 +6,7 @@ using FBPLib;
 
 namespace Components
 {
-    /** Component to pass through all incoming packets - mostly used for
+    /** Component to pass its input to its output with random delays - mostly used for
     * debugging.
     */
 

@@ -28,7 +28,7 @@ namespace FBPLib
         internal Component _sender;
 
         // Number of senders who have called setSender() but are not closed.
-        internal volatile int _senderCount = 0;
+        internal /* volatile */ int _senderCount = 0;
 
         // The list of types (Class objects) that senders have declared.
         // Vector senderTypes;
@@ -140,14 +140,14 @@ namespace FBPLib
         {
             //lock ((_receiver._inputPorts as ICollection).SyncRoot)
             //{
-            try
-            {
-                Monitor.Enter(_receiver._lockObject);
+            //try
+            //{
+                //Monitor.Enter(_receiver._lockObject);
                 lock (this)
                 {
                     if (!IsClosed())
                     {
-                        --_senderCount;
+                        DecSenderCount();
                         if (IsDrained())
                         {
                             if (_receiver.Status == Component.States.Dormant ||
@@ -159,11 +159,11 @@ namespace FBPLib
                         }
                     }
                 }
-            }
-            finally
-            {
-                Monitor.Exit(_receiver._lockObject);
-            }
+            //}
+            //finally
+            //{
+            //    Monitor.Exit(_receiver._lockObject);
+           // }
         }
         /// <summary>Return the number of packets currently in this Connection.
         /// </summary>
@@ -217,6 +217,14 @@ namespace FBPLib
             lock (this)
             {
                 return (_buffer.Count() == _buffer.Capacity());
+            }
+        }
+
+        internal void DecSenderCount()
+        {
+            lock (this)
+            {
+                _senderCount--;
             }
         }
 

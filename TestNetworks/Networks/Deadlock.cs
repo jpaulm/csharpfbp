@@ -23,14 +23,18 @@ namespace TestNetworks.Networks
         public override void Define() /* throws Throwable */ {
 		Connect(Component("Read", typeof(ReadText)),
 			Port("OUT"),
-			Component("ReplString", typeof(ReplString)),
+			Component("Display", typeof(WriteToConsole)),
 			Port("IN"));
         Object d = (Object)@"..\..\mfile";
         Initialize(d,
 			Component("Read"),
 			Port("SOURCE"));
-		
-		Connect(Component("ReplString"),
+        Connect(Component("Display"),
+            Port("OUT"),
+            Component("ReplString", typeof(ReplString)),
+            Port("IN"));
+
+            Connect(Component("ReplString"),
 			Port("OUT", 0),
 			Component("Concatenate", typeof(Concatenate)),
 			Port("IN", 0));
@@ -41,12 +45,12 @@ namespace TestNetworks.Networks
 			Port("IN"));
 
 		Connect(Component("ReplString"),
-			Port("OUT", 1),
+			Port("OUT", 2),
 			Component("Concatenate"),
 			Port("IN", 1));
 		
 		Connect(Component("ReplString"),
-			Port("OUT", 2),
+			Port("OUT", 1),
 			Component("Concatenate"),
 			Port("IN", 2));
 		}

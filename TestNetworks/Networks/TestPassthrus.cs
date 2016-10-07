@@ -23,16 +23,16 @@ namespace TestNetworks.Networks
             // tracing = true;
 
             Component("Generate", typeof(GenerateTestData));
-            Component("P1", typeof(Passthru));
+            Component("P1", typeof(ProcessWRandDelays));
             Component("P2", typeof(Passthru));
-            Component("P3", typeof(Passthru));
+            Component("P3", typeof(ProcessWRandDelays));
             Component("P4", typeof(Passthru));
             Component("C1", typeof(Copy));
             Component("C2", typeof(Copy));
             Component("C3", typeof(Copy));
             Component("C4", typeof(Copy));
             Component("Discard", typeof(Discard));
-            Initialize("100", "Generate.COUNT");
+            Initialize("1000", "Generate.COUNT");
             Connect("Generate.OUT", "P1.IN");
             Connect("P1.OUT", "C1.IN");
             Connect("C1.OUT", "P2.IN");

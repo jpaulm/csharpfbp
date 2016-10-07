@@ -64,8 +64,8 @@ namespace FBPLib
 
         protected internal static int PRODUCTIONSIZE = 10;
 
-        //internal static int _defaultCapacity = DEBUGSIZE;       // change this when you go to production
-        internal static int _defaultCapacity = PRODUCTIONSIZE; // use this one for production
+        internal static int _defaultCapacity = DEBUGSIZE;       // change this when you go to production
+        //internal static int _defaultCapacity = PRODUCTIONSIZE; // use this one for production
 
         //UPGRADE_NOTE: The initialization of  'components' was moved to method 'InitBlock'. 'ms-help://MS.VSCC/commoner/redir/redirect.htm?keyword="jlca1005"'
         internal Dictionary<string, Component> _components;
