@@ -23,7 +23,8 @@ namespace Components
 
         IInputPort _inport;        
         OutputPort _outport;
-        static string _linesep = System.Environment.NewLine;               
+        static string _linesep = System.Environment.NewLine;
+        double _timeout = 2.0;   // 2 secs          
 
         public override void OpenPorts()
         {
@@ -37,7 +38,20 @@ namespace Components
             while ((p = _inport.Receive()) != null)
             {                                         
                 string line = p.Content as string;
-                Console.WriteLine(line);
+                LongWaitStart(_timeout);
+                //Thread.Sleep(3000);   // testing only
+                if (p.Type == Packet.Types.Open)
+                    Console.Out.WriteLine("==> Open Bracket");
+                else
+                    if (p.Type == Packet.Types.Close)
+                    Console.Out.WriteLine("==> Close Bracket");
+                else
+                        if (p.Content == null)
+                    Console.Out.WriteLine("null");
+                else
+                    Console.Out.WriteLine(p.Content);
+                //}
+                LongWaitEnd();
                 if (_outport.IsConnected())
                 {
                     _outport.Send(p);

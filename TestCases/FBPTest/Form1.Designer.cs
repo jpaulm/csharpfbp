@@ -39,7 +39,7 @@ namespace FBPTest
             "CopyFileToCons",
             "Deadlock",
             "NoDeadlock",
-            "TestTune",
+            "TestLoadBalWithSS",
             "RunExe",
             "LBwRandDelay",
             "TestPassthrus",

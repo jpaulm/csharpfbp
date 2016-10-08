@@ -22,7 +22,7 @@ namespace TestNetworks.Networks
 
             int multiplex_factor = 6;
             Component("generate", typeof(GenSS));
-            Component("display", typeof(WriteToConsole));
+			Component("display", typeof (WriteText));
             Component("lbal", typeof(LoadBalance));
             Component("SSMerge", typeof(SubstreamSensitiveMerge));
             Connect("generate.OUT", "lbal.IN", 4);
@@ -36,10 +36,10 @@ namespace TestNetworks.Networks
             }
             Connect("SSMerge.OUT", "display.IN", 4);
 
-            //Stream st = Console.OpenStandardOutput(); // TODO: use new component WriteToConsole
-            //Initialize(st,
-            //    Component("display"),
-            //    Port("DESTINATION"));
+			Stream st = Console.OpenStandardOutput(); 
+			Initialize(st,
+				Component("display"),
+				Port("DESTINATION"));
         }
 
     }
