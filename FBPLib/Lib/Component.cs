@@ -850,31 +850,29 @@ namespace FBPLib
 
                 //lock ((inports as ICollection).SyncRoot)
                 //{
-                //try
-                //{
-                //Monitor.Enter(comp._lockObject);
-                while (true)
+                try
                 {
-                    allDrained = true;
-                    hasData = false;
-                    foreach (IInputPort inp in inports.Values)
-                        if (inp is Connection)
-                        {
-                            Connection c = inp as Connection;
-                            lock (c)    
+                    Monitor.Enter(comp._lockObject);
+                    while (true)
+                    {
+                        allDrained = true;
+                        hasData = false;
+                        foreach (IInputPort inp in inports.Values)
+                            if (inp is Connection)
                             {
+                                Connection c = inp as Connection;
+                                //lock (c)    
+                                //{
                                 //allDrained &= c.IsDrained();
                                 allDrained &= c._buffer._usedSlots == 0 && c._senderCount == 0;
                                 //hasData |= !c.IsEmpty();
                                 hasData |= c._buffer._usedSlots > 0;
-                            }
+                                //}
 
-                        }
-                    if (allDrained || hasData)
-                        break;
-                    try
-                    {
-                        Monitor.Enter(comp._lockObject);
+                            }
+                        if (allDrained || hasData)
+                            break;
+
                         comp._status = States.Dormant;
 
                         comp._mother.Trace("{0}: Dormant", comp.Name);
@@ -883,14 +881,16 @@ namespace FBPLib
                         comp.Status = States.Active;
                         comp._mother.Trace("{0}: Active", comp.Name);
                     }
+                }
 
-                    finally
-                    {
-                        Monitor.Exit(comp._lockObject);
-                    }
+                finally
+                {
+                    Monitor.Exit(comp._lockObject);
+                }
+           
                 }
             }
-        }
+         
 
 
         public int FindInputPortElementWithData(IInputPort[] ports)
