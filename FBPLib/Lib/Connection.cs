@@ -140,11 +140,12 @@ namespace FBPLib
         {
             //lock ((_receiver._inputPorts as ICollection).SyncRoot)
             //{
-            //try
-            //{
+            try
+            {
                 //Monitor.Enter(_receiver._lockObject);
                 lock (this)
                 {
+                    Monitor.Enter(_receiver._lockObject);
                     if (!IsClosed())
                     {
                         DecSenderCount();
@@ -159,11 +160,11 @@ namespace FBPLib
                         }
                     }
                 }
-            //}
-            //finally
-            //{
-            //    Monitor.Exit(_receiver._lockObject);
-           // }
+            }
+            finally
+            {
+                Monitor.Exit(_receiver._lockObject);
+            }
         }
         /// <summary>Return the number of packets currently in this Connection.
         /// </summary>

@@ -32,8 +32,10 @@ namespace Components
         public override void Execute() /* throws Throwable */  {
             Packet p = _inport.Receive();
             Random rnd = new Random();
-            int no = rnd.Next(0, 100);
+            LongWaitStart(1);
+            int no = rnd.Next(0, 500);
             System.Threading.Thread.Sleep(no);
+            LongWaitEnd();
             _outport.Send(p);            
         }
             

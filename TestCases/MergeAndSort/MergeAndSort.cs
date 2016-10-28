@@ -21,27 +21,27 @@ namespace TestNetworks
 
 
             Component("Generate", typeof(GenerateTestData));
-            Component("Passthru", typeof(Passthru));
-            Component("Passthru2", typeof(Passthru));
+            Component("ProcessWRandDelays", typeof(ProcessWRandDelays));
+            Component("ProcessWRandDelays2", typeof(ProcessWRandDelays));
             Component("Sort", typeof(Sort));
             Component("Write", typeof(WriteToConsole));
 
             Connect(Component("Generate"),
                 Port("OUT"),
-                Component("Passthru"),
+                Component("ProcessWRandDelays"),
                 Port("IN"));
 
-            Connect("Passthru2.OUT", "Passthru.IN");
+            Connect("ProcessWRandDelays2.OUT", "ProcessWRandDelays.IN");
             Initialize("60",
                 Component("Generate"),
                 Port("COUNT"));
 
             Connect(Component("Generate2", typeof(GenerateTestData)),
                 Port("OUT"),
-                Component("Passthru2"),
+                Component("ProcessWRandDelays2"),
                 Port("IN"));
 
-            Connect("Passthru.OUT", "Sort.IN");
+            Connect("ProcessWRandDelays.OUT", "Sort.IN");
 
             Initialize("75",
                 Component("Generate2"),
@@ -52,14 +52,7 @@ namespace TestNetworks
                 Component("Write"),
                Port("IN"));
 
-            //Stream st = Console.OpenStandardOutput();
-            //Initialize(st,
-             //   Component("Write"),
-            //    Port("DESTINATION"));
-            
-            //Initialize("500",
-           //     Component("Write"),
-           //     Port("CONFIG"));
+          
 
         }
         /// <summary>
@@ -70,7 +63,8 @@ namespace TestNetworks
         {
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
-            (new MergeAndSort()).Go();
+            //for (int i = 0; i <50; i++)
+               new MergeAndSort().Go();
             //Console.Read();
         }
         

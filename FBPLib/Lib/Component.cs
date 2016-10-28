@@ -991,8 +991,7 @@ namespace FBPLib
         return res;
     }
 
-    // Use SetPriority in Execute, not OpenPorts!
-    //public void SetPriority(ThreadPriority p) { _thread.Priority = p; }
+    // duration in seconds
 
     public void LongWaitStart(double dur)
     {
