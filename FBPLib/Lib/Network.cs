@@ -106,6 +106,8 @@ namespace FBPLib
 
         public static Object _traceObject;   // JPM added
 
+        public static Object _netObject;  // for locking
+        
         public new void InitBlock()
         {
             _components = new Dictionary<string, Component>();
@@ -122,7 +124,7 @@ namespace FBPLib
             creates = 0;
             drops = 0;
             dropOlds = 0;
-            _traceObject = new object();  // JPM
+            _traceObject = new Object();  // JPM
 
             if (!(this is SubNet))  // i.e. Network only!
             {
@@ -516,109 +518,121 @@ namespace FBPLib
             Name = t.FullName;
 
             _network = this;
+            _netObject = new Object();
 
-            //Thread.CurrentThread.Name = "Go";
-
-            InitBlock();   // moved up
-
-            DateTime now = DateTime.Now;
-            // _traceFileList = new List<StreamWriter>();
-            _traceFileDictionary = new Dictionary<string, StreamWriter>();
-
-            //Settings d = Settings.Default;
-            // _tracing = d.Tracing;  // get value from Properties for FBPLib
-
-            /*
-
-            if (_tracing && !_forceConsole && !_useConsole)
+            try
             {
-                try
+                Monitor.Enter(_netObject);
+
+                //Thread.CurrentThread.Name = "Go";
+
+                InitBlock();   // moved up
+
+                DateTime now = DateTime.Now;
+                // _traceFileList = new List<StreamWriter>();
+                _traceFileDictionary = new Dictionary<string, StreamWriter>();
+
+                //Settings d = Settings.Default;
+                // _tracing = d.Tracing;  // get value from Properties for FBPLib
+
+                /*
+
+                if (_tracing && !_forceConsole && !_useConsole)
                 {
-                    //instantiate one _traceWriter for each level of the Network and its SubNets
-                    lock (_traceObject)
+                    try
                     {
-                        var newTw = GetOrMakeTraceWriter(n);
+                        //instantiate one _traceWriter for each level of the Network and its SubNets
+                        lock (_traceObject)
+                        {
+                            var newTw = GetOrMakeTraceWriter(n);
+                        }
+                        Trace($"Trace file = {s}");
                     }
-                    Trace($"Trace file = {s}");
-                }
-                catch (Exception e)
-                {
-                    // file cannot be created or opened, so _useConsole
-                    lock (_network) // TODO: review is this lock really needed?
+                    catch (Exception e)
                     {
-                        Console.Out.WriteLine("Trace file [" + s + "]\n could not be opened, so writing all tracing to console...");
+                        // file cannot be created or opened, so _useConsole
+                        lock (_network) // TODO: review is this lock really needed?
+                        {
+                            Console.Out.WriteLine("Trace file [" + s + "]\n could not be opened, so writing all tracing to console...");
+                            Console.Out.Flush();
+                            _useConsole = true;
+                        }
+                        throw; // Temporary, to know it happened.  TODO: review this
+                    }
+                }
+
+                */
+
+                //InitBlock();
+                _mainthread = new Thread(delegate ()
+                {
+                    try
+                    {
+                        CallDefine();
+                        bool res = true;
+                        Thread.CurrentThread.Name = "NetworkGo";
+                        foreach (Component comp in _components.Values)
+                        {
+                            res &= comp.CheckPorts();
+                        }
+                        if (!res)
+                            FlowError.Complain("One or more mandatory connections have been left unconnected: " + Name);
+
+                        _cdl = new CountDownLatch(_components.Count);
+
+
+                        Trace(Name + ": run started");
+                        _active = true;
+
+                        Initiate();
+
+                        WaitForAll();
+
+                    }
+                    catch (FlowError e)
+                    {
+                        string s = "Flow Error :" + e;
+
+                        Console.Out.WriteLine("Network: " + s);
                         Console.Out.Flush();
-                        _useConsole = true;
+                        // rethrow the exception for external error handling
+                        // in case of a deadlock: deadlock is the cause
+                        throw e;
                     }
-                    throw; // Temporary, to know it happened.  TODO: review this
-                }
+
+                    if (_error != null)
+                    {
+                        // throw the exception which caused the network to stop
+                        throw _error;
+                    }
+
+                    TimeSpan duration = DateTime.Now - now;
+
+                    Console.Out.WriteLine("{0} - run time: {1}", Name, duration);
+
+                    Console.Out.WriteLine("Counts: C: {0}, D: {1}, S: {2}, R (non-null): {3}, DO: {4}", creates, drops, sends, receives, dropOlds);
+                    Console.Out.WriteLine("End of job");
+
+                    //lock(Network._traceObject)                  // add lock 
+                    //{
+                    //  Console.Out.Flush();  // Flush to write trace JPM
+
+                    //Thread.Sleep(500);
+
+                    CloseTraceFiles();  // JPM
+
+
+
+
+                });
+
+                _mainthread.Start();
             }
-
-            */
-
-            //InitBlock();
-            _mainthread = new Thread(delegate()
+            finally
             {
-                try
-                {
-                    CallDefine();
-                    bool res = true;
-                    Thread.CurrentThread.Name = "NetworkGo";
-                    foreach (Component comp in _components.Values) {
-                        res &= comp.CheckPorts();
-                    }
-                    if (!res)
-    	                  FlowError.Complain("One or more mandatory connections have been left unconnected: " + Name);
-
-                    _cdl = new CountDownLatch(_components.Count);
-
-
-                    Trace(Name + ": run started");
-                    _active = true;
-
-                    Initiate();
-                    
-                    WaitForAll();
-                    
-                }
-                catch (FlowError e)
-                {
-                    string s = "Flow Error :" + e;
-
-                    Console.Out.WriteLine("Network: " + s);
-                    Console.Out.Flush();
-                    // rethrow the exception for external error handling
-                    // in case of a deadlock: deadlock is the cause
-                    throw e;
-                }
-
-                if (_error != null)
-                {
-                    // throw the exception which caused the network to stop
-                    throw _error;
-                }
-
-                TimeSpan duration = DateTime.Now - now;
-
-                Console.Out.WriteLine("{0} - run time: {1}", Name, duration);
-                
-                Console.Out.WriteLine("Counts: C: {0}, D: {1}, S: {2}, R (non-null): {3}, DO: {4}", creates, drops, sends, receives, dropOlds);
-                Console.Out.WriteLine("End of job");
-
-                //lock(Network._traceObject)                  // add lock 
-                //{
-                  //  Console.Out.Flush();  // Flush to write trace JPM
-
-                //Thread.Sleep(500);
-
-                CloseTraceFiles();  // JPM
-                //}
-
-               
-
-            });
-
-            _mainthread.Start();
+                Monitor.Exit(_netObject);
+            }
+            
         }
 
         

@@ -33,7 +33,7 @@ namespace Components
             Packet p = _inport.Receive();
             Random rnd = new Random();
             LongWaitStart(1);
-            int no = rnd.Next(0, 500);
+            int no = rnd.Next(0, 200);
             System.Threading.Thread.Sleep(no);
             LongWaitEnd();
             _outport.Send(p);            

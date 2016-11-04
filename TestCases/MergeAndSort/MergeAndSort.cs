@@ -32,7 +32,7 @@ namespace TestNetworks
                 Port("IN"));
 
             Connect("ProcessWRandDelays2.OUT", "ProcessWRandDelays.IN");
-            Initialize("60",
+            Initialize("120",
                 Component("Generate"),
                 Port("COUNT"));
 
@@ -63,8 +63,17 @@ namespace TestNetworks
         {
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
+
+            // Additional calls to MergeAndSort.Go() were starting before the previous ones had destroyed all threads - 
+            //  this seems to differ from JavaFBP, since the Network.Go methods are basically the same in
+            //  both implementations.  
+
+            // I have therefore added a Monitor.Enter call in Network.Go to a static lock object called _netObject.  
+            // This seems to have fixed the problem.
+
             //for (int i = 0; i <50; i++)
-               new MergeAndSort().Go();
+            new MergeAndSort().Go();
+            new MergeAndSort().Go();
             //Console.Read();
         }
         
