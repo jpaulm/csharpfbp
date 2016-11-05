@@ -59,18 +59,12 @@ namespace TestNetworks
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
 
-            // Additional calls to MergeAndSort.Go() were starting before the previous ones had destroyed all threads - 
-            //  this seems to differ from JavaFBP, since the Network.Go methods are basically the same in
-            //  both implementations.  
-
-            // I have therefore added a Monitor.Enter call in Network.Go to a static lock object called _netObject.  
-            // This seems to have fixed the problem.
-
+           
             for (int i = 0; i <10; i++)
                 new MergeAndSort().Go();
             //Console.Read();

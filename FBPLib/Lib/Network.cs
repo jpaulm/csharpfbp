@@ -520,9 +520,9 @@ namespace FBPLib
             _network = this;
             _netObject = new Object();
 
-            try
-            {
-                Monitor.Enter(_netObject);
+           // try
+            //{
+             //   Monitor.Enter(_netObject);
 
                 //Thread.CurrentThread.Name = "Go";
 
@@ -627,11 +627,11 @@ namespace FBPLib
                 });
 
                 _mainthread.Start();
-            }
-            finally
-            {
-                Monitor.Exit(_netObject);
-            }
+            //}
+            //finally
+            //{
+           //     Monitor.Exit(_netObject);
+            //}
             
         }
 
