@@ -6,6 +6,10 @@ using FBPLib;
 
 namespace TestNetworks.Networks
 {
+
+    // This version of MergeAndSort is only used by FBPTest
+    // The stand-alone version is in the MergeAndSort project
+
     public class MergeAndSort : Network
     {
 
