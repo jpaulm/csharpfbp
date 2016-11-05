@@ -71,9 +71,8 @@ namespace TestNetworks
             // I have therefore added a Monitor.Enter call in Network.Go to a static lock object called _netObject.  
             // This seems to have fixed the problem.
 
-            //for (int i = 0; i <50; i++)
-            new MergeAndSort().Go();
-            new MergeAndSort().Go();
+            for (int i = 0; i <10; i++)
+                new MergeAndSort().Go();
             //Console.Read();
         }
         
