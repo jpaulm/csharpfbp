@@ -43,7 +43,7 @@ namespace TestNetworks
                 Port("DESTINATION"));
         }
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             new TestLoadBalanceWithSubstreams().Go();
             Console.Read();
