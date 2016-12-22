@@ -18,6 +18,7 @@ build
 *.dll
 *.pdb
 *.cache
+*.txt
 *.force
 
 # IDEA project
