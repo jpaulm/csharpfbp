@@ -11,6 +11,7 @@ namespace FBPLib
     //  using System.Text.RegularExpressions;
 
     using FBPLib.Properties;
+    using System.Threading.Tasks;
 
 
     /// <summary> The abstract class which all flow Networks extend directly or
@@ -135,10 +136,10 @@ namespace FBPLib
             }
         }
         // return object to use for synchronising state changes
-       // internal object StateSynchRoot
-       // {
-       //     get { return (_components as ICollection).SyncRoot; }
-       // }
+        // internal object StateSynchRoot
+        // {
+        //     get { return (_components as ICollection).SyncRoot; }
+        // }
 
         /// <summary>Drive define method of Network
         /// </summary>
@@ -512,7 +513,7 @@ namespace FBPLib
         /// <summary>Execute Network as a whole
         /// </summary>
         [MTAThreadAttribute]   // this is the default, so not really necessary
-        public void Go()
+        public Task Go()
         {
             Type t = this.GetType();
             Name = t.FullName;
@@ -564,7 +565,7 @@ namespace FBPLib
                 */
 
                 //InitBlock();
-                _mainthread = new Thread(delegate ()
+                return Task.Factory.StartNew(() =>
                 {
                     try
                     {
@@ -625,14 +626,6 @@ namespace FBPLib
 
 
                 });
-
-                _mainthread.Start();
-            //}
-            //finally
-            //{
-           //     Monitor.Exit(_netObject);
-            //}
-            
         }
 
         
