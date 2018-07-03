@@ -21,7 +21,7 @@ C#FBP Syntax and Component API:
 Prerequisites
 ---
 
-Install Visual C# Express
+Install Visual Studio Community
 
 Build FBP Project
 ---
