@@ -2,6 +2,8 @@
 using FBPLib;
 using Components;
 using System.Windows.Forms;
+using System.IO;
+using System;
 
 namespace Concord
 {
@@ -22,7 +24,10 @@ namespace Concord
             Component("Show1", typeof(WriteTextBox));
             Component("Show2", typeof(WriteTextBox));
 
-            Initialize(@"..\..\..\Concord\Resources", "Dir1.IN");
+            string currentDir = Environment.CurrentDirectory;
+            //DirectoryInfo directory = new DirectoryInfo(
+            //    Path.GetFullPath(Path.Combine(currentDir, @"..\..\Resources")));
+            Initialize(Path.GetFullPath(Path.Combine(currentDir, @"..\..\Resources\")), "Dir1.IN");
             Initialize(@"fake_la", "Match.CONFIG");
             Initialize(@"5,50", "Format.CONFIG");
             TextBox tb = parms[0] as TextBox;

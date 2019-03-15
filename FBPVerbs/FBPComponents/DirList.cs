@@ -48,7 +48,7 @@ namespace Components
             DirectoryInfo di = new DirectoryInfo(name);
             DirectoryInfo[] dirs = di.GetDirectories();
             //if (dirs.Length == 0)
-            //    FlowError.Complain("Missing directory");
+            //    FlowError.Complain("Missing directory - " + name);
             foreach (DirectoryInfo d in dirs)
                 _outpd.Send(Create(d.FullName));
             FileInfo[] files = di.GetFiles();

@@ -1,50 +1,21 @@
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using System.Reflection;
-using FBPLib;
-using Components;
+namespace {    // change this if you want 
+ public class MergeandSort : Network {
+string description = "Merge and Sort Network";
+ public override void Define() { 
+Component("Write_text__to_pane", typeof(com.jpaulmorrison.fbp.core.components.misc.WriteToConsole)); 
+Component("Sort", typeof(com.jpaulmorrison.fbp.core.components.routing.Sort)); 
+Component("Generate____1st_group", typeof(com.jpaulmorrison.fbp.core.components.misc.GenerateTestData)); 
+Component("Generate___2nd_group", typeof(com.jpaulmorrison.fbp.core.components.misc.GenerateTestData)); 
+Connect(Component("Sort"), Port("OUT"), Component("Write_text__to_pane"), Port("IN")); 
+Connect(Component("Generate___2nd_group"), Port("OUT"), Component("Sort"), Port("IN")); 
+Connect(Component("Generate____1st_group"), Port("OUT"), Component("Sort"), Port("IN")); 
+Initialize("100", Component("Generate___2nd_group"), Port("COUNT")); 
+Initialize("100", Component("Generate____1st_group"), Port("COUNT")); 
 
-namespace TestNetworks.Networks
-{
-    public class Copy1 : Network
-    {
-
-        /* *
-               * Copyright 2007, 2008, J. Paul Morrison.  At your option, you may copy, 
-               * distribute, or make derivative works under the terms of the Clarified Artistic License, 
-               * based on the Everything Development Company's Artistic License.  A document describing 
-               * this License may be found at http://www.jpaulmorrison.com/fbp/artistic2.htm. 
-               * THERE IS NO WARRANTY; USE THIS PRODUCT AT YOUR OWN RISK.
-               * */
-
-        public override void Define() /* throws Throwable */ {
-		// component("MONITOR", Monitor.class);
-        
-        Connect(Component("Generate", typeof(GenerateTestData)),
-			Port("OUT"),
-            Component("Write", typeof(WriteToConsole)),
-			Port("IN"));
-        
-        
-		Initialize("100",
-			Component("Generate"),
-			Port("COUNT"));
-
-        //Stream st = Console.OpenStandardOutput();
-		//Initialize(st,
-		//	Component("Write"),
-        //    Port("DESTINATION"));
-        //Initialize("", 
-       //     Component("Write"),
-       //     Port("FLUSH"));
-		
-	
-		}
-	internal static void main(string[] argv) {
-		new Copy1().Go();
-		}
-}
-
+ } 
+internal static void main(String[] argv) { 
+ new MergeandSort().Go();
+ }
+} 
+ int i = 0;
 }

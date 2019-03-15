@@ -1,77 +1,21 @@
-using System;
-using System.IO;
-using Components;
-using FBPLib;
+namespace {    // change this if you want 
+ public class MergeandSort : Network {
+string description = "Merge and Sort Network";
+ public override void Define() { 
+Component("Write_text__to_pane", typeof(com.jpaulmorrison.fbp.core.components.misc.WriteToConsole)); 
+Component("Sort", typeof(com.jpaulmorrison.fbp.core.components.routing.Sort)); 
+Component("Generate____1st_group", typeof(com.jpaulmorrison.fbp.core.components.misc.GenerateTestData)); 
+Component("Generate___2nd_group", typeof(com.jpaulmorrison.fbp.core.components.misc.GenerateTestData)); 
+Connect(Component("Sort"), Port("OUT"), Component("Write_text__to_pane"), Port("IN")); 
+Connect(Component("Generate___2nd_group"), Port("OUT"), Component("Sort"), Port("IN")); 
+Connect(Component("Generate____1st_group"), Port("OUT"), Component("Sort"), Port("IN")); 
+Initialize("100", Component("Generate___2nd_group"), Port("COUNT")); 
+Initialize("100", Component("Generate____1st_group"), Port("COUNT")); 
 
-
-namespace TestNetworks.Networks
-{
-
-    // This version of MergeAndSort is only used by FBPTest
-    // The stand-alone version is in the MergeAndSort project
-
-    public class MergeAndSort : Network
-    {
-
-        /* *
-          * Copyright 2007, 2008, J. Paul Morrison.  At your option, you may copy, 
-          * distribute, or make derivative works under the terms of the Clarified Artistic License, 
-          * based on the Everything Development Company's Artistic License.  A document describing 
-          * this License may be found at http://www.jpaulmorrison.com/fbp/artistic2.htm. 
-          * THERE IS NO WARRANTY; USE THIS PRODUCT AT YOUR OWN RISK.
-          * */
-
-        public override void Define() /* throws Throwable */ {
-
-
-            Component("Generate", typeof(GenerateTestData));
-            Component("Passthru", typeof(Passthru));
-            Component("Passthru2", typeof(Passthru));
-            Component("Sort", typeof(Sort));
-            Component("Write", typeof(WriteToConsole));
-
-            Connect(Component("Generate"),
-                Port("OUT"),
-                Component("Passthru"),
-                Port("IN"));
-
-            Connect("Passthru2.OUT", "Passthru.IN");
-            Initialize("60",
-                Component("Generate"),
-                Port("COUNT"));
-
-            Connect(Component("Generate2", typeof(GenerateTestData)),
-                Port("OUT"),
-                Component("Passthru2"),
-                Port("IN"));
-
-            Connect("Passthru.OUT", "Sort.IN");
-
-            Initialize("75",
-                Component("Generate2"),
-                Port("COUNT"));
-
-            Connect(Component("Sort"),
-                Port("OUT"),
-                Component("Write"),
-               Port("IN"));
-
-            //Stream st = Console.OpenStandardOutput();
-            //Initialize(st,
-            //    Component("Write"),
-            //    Port("DESTINATION"));
-
-            //Initialize("-",
-            //    Component("Write"),
-            //    Port("FLUSH"));
-            //Initialize("500",
-            //    Component("Write"),
-             //   Port("CONFIG"));
-
-        }
-
-        
-    }
+ } 
+internal static void main(String[] argv) { 
+ new MergeandSort().Go();
+ }
+} 
+ 
 }
-
-
