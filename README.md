@@ -32,7 +32,7 @@ Do `git clone https://github.com/jpaulm/csharpfbp`
 
 Now go into Visual C#, and `Open Project` `CsharpFBP.sln` (in the just cloned directory)
 
-Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.
+Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.  The .dlls for these will be needed when testing your application, and these two projects should be added as references.
 
 "Concord" (forms-based Windows application)
 ---
