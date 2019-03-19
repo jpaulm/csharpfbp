@@ -22,7 +22,7 @@ namespace CopyFileToConsole
                 Port("OUT"),
                 Component("Write", typeof(WriteToConsole)),
                 Port("IN"));
-            Object d = (Object)@"..\..\Resources\fake_cyrillic.txt";
+            Object d = (Object)@"..\..\Resources\fake_latin.txt";
             Initialize(d,
                 Component("Read"),
                 Port("SOURCE"));

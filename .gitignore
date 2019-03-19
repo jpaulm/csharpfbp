@@ -15,7 +15,7 @@ build
 *.suo
 *.exe
 *.sdf
-*.dll
+
 *.pdb
 *.cache
 *.txt
