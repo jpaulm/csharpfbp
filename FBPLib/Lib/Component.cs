@@ -170,14 +170,12 @@ namespace FBPLib
                 _inputPorts.Add(s, ca);
                 ca._fixedSize = ipt.fixedSize;
                 ca._name = s;
-                ca._optional = ipt.optional;
             }
             else
             {
                 NullConnection nc = new NullConnection();
                 nc._name = s;
                 _inputPorts.Add(s, nc);
-                nc._optional = ipt.optional;
             }
         }
 
@@ -359,7 +357,7 @@ namespace FBPLib
         protected Stack _stack;
         internal enum States
         {
-            NotStarted, Active, Dormant, SuspRecv, SuspSend, SuspFIPE,
+            NotStarted, Active, Dormant, SuspRecv, SuspSend,
             Terminated, LongWait, Error
         }
 
@@ -394,8 +392,6 @@ namespace FBPLib
         public Object _lockObject;
 
         internal Network _mother;
-
-        public string currPort;
 
 
         internal ThreadPriority _priority = ThreadPriority.Normal;
@@ -460,8 +456,10 @@ namespace FBPLib
                 try
                 {
                     Monitor.Enter(_lockObject);
-                    if (Status == States.Dormant || Status == States.SuspFIPE)
-                        
+                    if (Status == States.Dormant)
+
+                        //_event_dormant.Set();
+                        //Monitor.Pulse((_inputPorts as ICollection).SyncRoot);
                         Monitor.Pulse(_lockObject);
                 }
                 finally
@@ -847,7 +845,6 @@ namespace FBPLib
 
             internal InputStates(Dictionary<string, IInputPort> inports, Component comp)
             {
-
                 //lock ((inports as ICollection).SyncRoot)
                 //{
                 try
@@ -861,377 +858,306 @@ namespace FBPLib
                             if (inp is Connection)
                             {
                                 Connection c = inp as Connection;
-                                //lock (c)    
-                                //{
+                                // lock (c)
+                                // {
                                 //allDrained &= c.IsDrained();
                                 allDrained &= c._buffer._usedSlots == 0 && c._senderCount == 0;
-                                //hasData |= !c.IsEmpty();
+                                // hasData |= !c.IsEmpty();
                                 hasData |= c._buffer._usedSlots > 0;
-                                //}
-
+                                // }
                             }
                         if (allDrained || hasData)
                             break;
-
                         comp._status = States.Dormant;
 
                         comp._mother.Trace("{0}: Dormant", comp.Name);
-
+                        //Monitor.Wait((inports as ICollection).SyncRoot);
+                        //comp._event_dormant.Reset();
+                        //comp._event_dormant.WaitOne();
                         Monitor.Wait(comp._lockObject);
                         comp.Status = States.Active;
                         comp._mother.Trace("{0}: Active", comp.Name);
                     }
                 }
-
                 finally
                 {
                     Monitor.Exit(comp._lockObject);
                 }
-           
-                }
-            }
-         
-
-
-        public int FindInputPortElementWithData(IInputPort[] ports)
-        {
-            _mother.Trace(Name + ": Starting findPortWithData");
-            while (true)
-            {
-                try
-                {
-                    Monitor.Enter(_lockObject);
-                    //lock (this)
-                    //{
-                        bool allDrained = true;
-                        for (int i = 0; i < ports.Length; i++)
-                        {
-                            //if (((Connection) ports[i]).isClosed()) {
-                            //	continue;
-                            //}
-                            if (!((Connection)ports[i]).IsDrained())
-                            {
-                                allDrained = false;
-                                if (!((Connection)ports[i]).IsEmpty())
-                                {
-                                    _mother.Trace(Name + ": Ending findPortWithData - returned: " + i);                                   
-                                    return i;
-                                }
-                            }
-                        }
-                        if (allDrained)
-                        {
-                            _mother.Trace(Name + ": Ending findPortWithData - array port drained");                            
-                            return -1;
-                        }
-                      //  else
-                      //  {
-
-                            //try
-                            //{                               
-                                Status = States.SuspFIPE;
-                                _mother.Trace(Name + ": find IPE with data");
-
-                                Monitor.Wait(_lockObject);
-                                Status = States.Active;
-                                _mother.Trace("{0}: Active", Name);
-                                
-                            //}
-                            //finally
-                            //{                                                               
-                            //    Status = States.Active;
-                             //   _mother.Trace(Name + ": Active");
-                            //}
-                       // }
-                  //  }
-                }
-
-                finally
-                {
-                    Monitor.Exit(_lockObject);
-                }
-            }
-        }
-    
-
-    public bool CheckPorts()
-    {
-        bool res = true;
-
-        foreach (KeyValuePair<String, IInputPort> kvp in _inputPorts)
-        {
-            if (kvp.Value is NullConnection)
-            {
-                NullConnection nc = (NullConnection)kvp.Value;
-                if (nc._optional)
-                {
-                    continue;
-                }
-                Console.WriteLine("Input port specified in metadata, but not connected: " + Name + "." +
-              kvp.Value.Name);
-                res = false;
-            }
-        }
-
-        foreach (KeyValuePair<String, OutputPort> kvp in _outputPorts)
-        {
-            if (kvp.Value is NullOutputPort)
-            {
-                NullOutputPort nop = (NullOutputPort)kvp.Value;
-                if (nop._optional)
-                {
-                    continue;
-                }
-
-                Console.WriteLine("Output port specified in metadata, but not connected: " + Name + "." +
-                    kvp.Value.Name);
-                res = false;
-            }
-        }
-        return res;
-    }
-
-    // duration in seconds
-
-    public void LongWaitStart(double dur)
-    {
-        Timeout = new TimeoutHandler(dur, this);
-    }
-
-    public void LongWaitEnd()
-    {
-        Timeout.Dispose();
-    }
-
-    //UPGRADE_TODO: The equivalent of method java.lang.Runnable.run is not an override method. 'ms-help://MS.VSCC/commoner/redir/redirect.htm?keyword="jlca5065"'
-    // internal void Run()
-    // implement mainline for thread
-
-    // runs and keeps running as long as there are input ports to read
-    void ThreadMain()
-    {
-        try
-        {
-            if (IsTerminated() || HasError())
-            {
-                try
-                {
-                    Monitor.Exit(_lockObject);
-                }
-                catch (SynchronizationLockException e)
-                {
-                    // do nothing - this is OK!
-                }
-                return;
-            }
-            _status = States.Active;
-
-            _mother.Trace("{0}: Started", Name);
-
-            if (!_inputPorts.ContainsKey("*IN"))
-                _autoInput = null;
-            else
-                _autoInput = (IInputPort)(_inputPorts["*IN"]);
-            if (!_outputPorts.ContainsKey("*OUT"))
-                _autoOutput = null;
-            else
-                _autoOutput = (OutputPort)(_outputPorts["*OUT"]);
-
-            if (_autoInput != null)
-            {
-                Packet p = _autoInput.Receive();
-                if (p != null)
-                    Drop(p);
-                _autoInput.Close();
-            }
-
-            InputStates ist = null;
-            if (SelfStarting)
-                _autoStarting = true;
-            else
-            {
-                try
-                {
-                    ist = new InputStates(_inputPorts, this);
-                }
-                catch (ThreadInterruptedException ex)
-                {
-                    if (IsTerminated() || HasError())
-                    {
-                        // if we are in the TERMINATED or ERROR state we terminated intentionally
-                        return;
-                    }
-                    // otherwise there was an error
-                    throw ex;
-
-                }
-
-            }
-
-            while (_autoStarting || !ist.allDrained || _autoInput != null || ist.allDrained && MustRun || StackSize() > 0)
-            {
-                _autoInput = null;
-                if (_network._deadlock || IsTerminated())
-                {
-                    break;
-                }
-                _packetCount = 0;
-
-
-                foreach (IInputPort port in _inputPorts.Values)
-                {
-                    if (port is InitializationConnection)
-                    {
-                        InitializationConnection icx = port as InitializationConnection;
-                        icx.Reopen();
-                    }
-                }
-
-                _mother.Trace("{0}: Activated", Name);
-                try
-                {
-                    Execute(); // do one activation!
-                }
-                catch (ComponentException e)
-                {
-                    _mother.Trace("Component Exception: " + Name + " - " + e.Message);
-                    if (e.Message.StartsWith("*"))
-                    {
-                        string s = e.Message.Substring(1);
-                        FlowError.Complain("Component Exception: " + Name + " - " + s);
-                    }
-                    else
-                        Console.Out.WriteLine("! Component Exception: " + Name + " - " + e.Message);
-                }
-
-                _mother.Trace("{0}: Deactivated", Name);
-
-                if (_packetCount != 0)
-                {
-                    _mother.Trace(Name + " deactivated holding " + _packetCount + " packets");
-
-                    FlowError.Complain(_packetCount + " packets not disposed of during Component activation of " + Name);
-                }
-                foreach (IInputPort port in _inputPorts.Values)
-                {
-                    if (port is InitializationConnection)
-                    {
-                        InitializationConnection icx = port as InitializationConnection;
-                        //if (!icx.IsClosed())
-                        //    FlowError.Complain("Component deactivated with IIP port not closed: " + icx.Name);
-                        icx.Close();
-                    }
-                }
-                MustRun = false;
-                SelfStarting = false;
-                if (_autoStarting) break;
-                // lock ((_inputPorts as ICollection).SyncRoot)
-                //{
-                try
-                {
-                    ist = new InputStates(_inputPorts, this);
-                }
-                catch (ThreadInterruptedException ex)
-                {
-                    if (IsTerminated() || HasError())
-                    {
-                        // if we are in the TERMINATED or ERROR state we terminated intentionally
-                        return;
-                    }
-                    // otherwise there was an error
-                    throw ex;
-
-                }
-                if (ist.allDrained)
-                    break;
                 //if (_network._deadlock)
                 //{
-                //    break;
+                //    comp._thread.Interrupt();
+                //     return;
                 // }
-
-            } //  while (!ist.allDrained);
-
-
-            //_compLog.Trace("{0}: Terminating", Name);
-            //}
-            // catch (System.Exception t)
-            // {
-            //Console.Out.WriteLine("*** Exception detected in " + Name);
-            //      System.Diagnostics.Trace.Fail("*** Exception detected in " + Name + ": " + t.Message);
-            // }
-
-
-            //_compLog.Trace("{0}: Terminated", Name);
-            if (_autoOutput != null)
-            {
-                //Packet p = Create("");
-                //_autoOutput.Send(p);
-                _autoOutput.Close();
-
             }
-            _status = States.Terminated;
+        }
 
-            if (_stack.Count > 0)
-                FlowError.Complain("Stack not empty at component termination: " + Name);
+     public bool CheckPorts() {
+            bool res = true;
+         /*
+	        foreach (KeyValuePair<String, IInputPort> kvp in _inputPorts) {
+	            if (kvp.Value is NullConnection) {
+	                 Console.WriteLine("Input port specified in metadata, but not connected: " +  Name + "."  + 
+	               kvp.Value.Name);
+	            res = false;
+	            }
+	        }
+         */
+            foreach (KeyValuePair<String, OutputPort> kvp in _outputPorts)  {
+                if (kvp.Value is NullOutputPort) {
+                   NullOutputPort nop = (NullOutputPort) kvp.Value;
+                   if (nop._optional) {
+                              continue;
+                   }
 
-            foreach (IInputPort port in _inputPorts.Values)
+                 Console.WriteLine("Output port specified in metadata, but not connected: " +  Name + "."  + 
+                     kvp.Value.Name);
+                 res = false;
+               }
+            }
+            return res;
+        }
+
+        // Use SetPriority in Execute, not OpenPorts!
+        //public void SetPriority(ThreadPriority p) { _thread.Priority = p; }
+
+        public void LongWaitStart(double dur)
+        {
+            Timeout = new TimeoutHandler(dur, this);
+        }
+
+        public void LongWaitEnd()
+        {
+            Timeout.Dispose();
+        }
+
+        //UPGRADE_TODO: The equivalent of method java.lang.Runnable.run is not an override method. 'ms-help://MS.VSCC/commoner/redir/redirect.htm?keyword="jlca5065"'
+        // internal void Run()
+        // implement mainline for thread
+
+        // runs and keeps running as long as there are input ports to read
+        void ThreadMain()
+        {
+            try
             {
-                if (port is Connection)
+                if (IsTerminated() || HasError())
                 {
-                    Connection cx = port as Connection;
-                    if (cx.Count() > 0)
-                        Console.Out.WriteLine("{0}: Component terminated with {1} packets in input connection", cx.Name, cx.Count());
-                    while (cx.Count() > 0)
+                    try
                     {
-                        Packet p = cx._buffer.Take();
-                        Console.Out.WriteLine(p);
+                        Monitor.Exit(_lockObject);
+                    }
+                    catch (SynchronizationLockException e)
+                    {
+                        // do nothing - this is OK!
+                    }
+                    return;
+                }
+                _status = States.Active;
+
+                _mother.Trace("{0}: Started", Name);
+
+                if (!_inputPorts.ContainsKey("*IN"))
+                    _autoInput = null;
+                else
+                    _autoInput = (IInputPort)(_inputPorts["*IN"]);
+                if (!_outputPorts.ContainsKey("*OUT"))
+                    _autoOutput = null;
+                else
+                    _autoOutput = (OutputPort)(_outputPorts["*OUT"]);
+
+                if (_autoInput != null)
+                {
+                    Packet p = _autoInput.Receive();
+                    if (p != null)
+                        Drop(p);
+                    _autoInput.Close();
+                }
+
+                InputStates ist = null;
+                if (SelfStarting)
+                    _autoStarting = true;
+                else
+                {
+                    try
+                    {
+                        ist = new InputStates(_inputPorts, this);
+                    }
+                    catch (ThreadInterruptedException ex)
+                    {
+                        if (IsTerminated() || HasError())
+                        {
+                            // if we are in the TERMINATED or ERROR state we terminated intentionally
+                            return;
+                        }
+                        // otherwise there was an error
+                        throw ex;
+
                     }
 
-
                 }
-                if (port is InitializationConnection)
+
+                while (_autoStarting || !ist.allDrained || _autoInput != null || ist.allDrained && MustRun || StackSize() > 0)
                 {
-                    InitializationConnection iip = port as InitializationConnection;
-                    if (!(iip.IsClosed()))
-                        FlowError.Complain("Component terminated with input port not closed: " + iip.Name);
+                    _autoInput = null;
+                    if (_network._deadlock || IsTerminated())
+                    {
+                        break;
+                    }
+                    _packetCount = 0;
+
+                   
+                    foreach (IInputPort port in _inputPorts.Values)
+                    {
+                        if (port is InitializationConnection)
+                        {
+                            InitializationConnection icx = port as InitializationConnection;
+                            icx.Reopen();
+                        }
+                    }
+
+                    _mother.Trace("{0}: Activated", Name);
+                    try
+                    {
+                        Execute(); // do one activation!
+                    }
+                    catch (ComponentException e)
+                    {
+                        _mother.Trace("Component Exception: " + Name + " - " + e.Message);
+                        if (e.Message.StartsWith("*"))
+                        {
+                            string s = e.Message.Substring(1);
+                            FlowError.Complain("Component Exception: " + Name + " - " + s);
+                        }
+                        else
+                            Console.Out.WriteLine("! Component Exception: " + Name + " - " + e.Message);
+                    }
+
+                    _mother.Trace("{0}: Deactivated", Name);
+
+                    if (_packetCount != 0)
+                    {
+                        _mother.Trace(Name + " deactivated holding " + _packetCount + " packets");
+
+                        FlowError.Complain(_packetCount + " packets not disposed of during Component activation of " + Name);
+                    }
+                    foreach (IInputPort port in _inputPorts.Values)
+                    {
+                        if (port is InitializationConnection)
+                        {
+                            InitializationConnection icx = port as InitializationConnection;
+                            if (!icx.IsClosed())
+                                FlowError.Complain("Component deactivated with IIP port not closed: " + icx.Name);
+                        }
+                    }
+                    MustRun = false;
+                    SelfStarting = false;
+                    if (_autoStarting) break;
+                    // lock ((_inputPorts as ICollection).SyncRoot)
+                    //{
+                    try
+                    {
+                        ist = new InputStates(_inputPorts, this);
+                    }
+                    catch (ThreadInterruptedException ex)
+                    {
+                        if (IsTerminated() || HasError())
+                        {
+                            // if we are in the TERMINATED or ERROR state we terminated intentionally
+                            return;
+                        }
+                        // otherwise there was an error
+                        throw ex;
+
+                    }
+                    if (ist.allDrained)
+                        break;
+                    //if (_network._deadlock)
+                    //{
+                    //    break;
+                    // }
+
+                } //  while (!ist.allDrained);
+
+
+                //_compLog.Trace("{0}: Terminating", Name);
+                //}
+                // catch (System.Exception t)
+                // {
+                //Console.Out.WriteLine("*** Exception detected in " + Name);
+                //      System.Diagnostics.Trace.Fail("*** Exception detected in " + Name + ": " + t.Message);
+                // }
+
+
+                //_compLog.Trace("{0}: Terminated", Name);
+                if (_autoOutput != null)
+                {
+                    //Packet p = Create("");
+                    //_autoOutput.Send(p);
+                    _autoOutput.Close();
+
+                }
+                _status = States.Terminated;
+
+                if (_stack.Count > 0)
+                    FlowError.Complain("Stack not empty at component termination: " + Name);
+
+                foreach (IInputPort port in _inputPorts.Values)
+                {
+                    if (port is Connection)
+                    {
+                        Connection cx = port as Connection;
+                        if (cx.Count() > 0)
+                            Console.Out.WriteLine("{0}: Component terminated with {1} packets in input connection", cx.Name, cx.Count());
+                        while (cx.Count() > 0)
+                        {
+                            Packet p = cx._buffer.Take();
+                            Console.Out.WriteLine(p);
+                        }
+
+
+                    }
+                    if (port is InitializationConnection)
+                    {
+                        InitializationConnection iip = port as InitializationConnection;
+                        if (!(iip.IsClosed()))
+                            FlowError.Complain("Component terminated with input port not closed: " + iip.Name);
+                    }
+                }
+
+                foreach (OutputPort port in _outputPorts.Values)
+                {
+                    port.Close();
+                }
+
+                //_status = States.Terminated; //will not be set if never activated
+                //_network.NotifyTerminated();
+                _mother.NotifyTerminated(this);
+
+            }
+            catch (Exception e)
+            {
+                // don't tell the mother if we are already in the ERROR or TERMINATE state
+                // because then the mother told us to terminate
+                if (!HasError() && !IsTerminated())
+                {
+                    // an error occurred in this component
+                    _status = States.Error;
+                    // tell the mother
+                    _mother.SignalError(e);
                 }
             }
-
-            foreach (OutputPort port in _outputPorts.Values)
-            {
-                port.Close();
-            }
-
-            //_status = States.Terminated; //will not be set if never activated
-            //_network.NotifyTerminated();
-            _mother.NotifyTerminated(this);
-
         }
-        catch (Exception e)
-        {
-            // don't tell the mother if we are already in the ERROR or TERMINATE state
-            // because then the mother told us to terminate
-            if (!HasError() && !IsTerminated())
-            {
-                // an error occurred in this component
-                _status = States.Error;
-                // tell the mother
-                _mother.SignalError(e);
-            }
-        }
-    }
-    /**
+        /**
 * Terminates the component.
 * 
 * @param newStatus the new status of the component (mostly TERMINATED or ERROR)
 */
-    internal virtual void Terminate(States newStatus)
-    {
-        _status = newStatus;
-        if (_thread != null)
-            _thread.Interrupt();
+        internal virtual void Terminate(States newStatus)
+        {
+            _status = newStatus;
+            if (_thread != null)
+                _thread.Interrupt();
+        }
     }
-}
 }
 
 

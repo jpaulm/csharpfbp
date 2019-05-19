@@ -12,11 +12,11 @@ namespace Components
     /** Component to generate a stream of 'n' packets, where 'n' is
     * specified in an InitializationConnection.
     */
-    [InPort("COUNT")]
-    [OutPort("OUT")]
-    [ComponentDescription("Generate packets based on count, inserting brackets between every 5 packets")]
+    [InPort("COUNT", description="Number of packets", type=typeof(System.String))]
+    [OutPort("OUT")] 
+    [ComponentDescription("Generate stream of packets based on count")]
 
-    public class GenSS : Component
+    public class Generate : Component
     {
 
         internal static string _copyright =
@@ -38,26 +38,16 @@ namespace Components
             Drop(ctp);
             _count.Close();
 
-            Packet p = Create(Packet.Types.Open, "");
-            _outport.Send(p);
-
-            for (int i = 0; i < ct; i++)
+            for (int i = ct; i > 0; i--)
             {
-                if (i % 20 == 4)
-                {
-                    p = Create(Packet.Types.Close, "");
-                    _outport.Send(p);
-                    p = Create(Packet.Types.Open, "");
-                    _outport.Send(p);
-                }
-                int j = 100 - i;
-                string s = String.Format("{0:d4}", j) + " abc";
+                string s = String.Format("{0:d6}", i) + "abcd";
 
-                p = Create(s);
+                Packet p = Create(s);
                 _outport.Send(p);
+
+
             }
-            p = Create(Packet.Types.Close, "");
-            _outport.Send(p);
+
             // output.close();
             // terminate();
         }
@@ -68,7 +58,7 @@ namespace Components
             return new Object[] {
 		"generates a set of Packets under control of a counter" ,
 		"OUT", "output", Type.GetType("System.String"),
-			"lines read",
+			"lines generated",
 		"COUNT", "parameter", Type.GetType("System.String"),
 			"Count of number of entities to be generated"};
         }
@@ -80,7 +70,7 @@ namespace Components
            // _outport.SetType(Type.GetType("System.String"));
 
             _count = OpenInput("COUNT");
-          //  _count.SetType(Type.GetType("System.String"));
+           // _count.SetType(Type.GetType("System.String"));
 
         }
     }

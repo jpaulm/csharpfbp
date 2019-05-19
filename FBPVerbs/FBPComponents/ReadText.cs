@@ -9,7 +9,7 @@ namespace Components
 * via an InitializationConnection.
 */
     [InPort("SOURCE")]
-    [InPort("CONFIG", optional = true)]
+    [InPort("CONFIG")]
     [OutPort("OUT")]
     [ComponentDescription("Reads input from a character stream and outputs it line-by-line")]
     public class ReadText : Component
@@ -68,9 +68,24 @@ namespace Components
             }
 
             sr.Close();
-            //Console.Out.WriteLine("Number of lines read: {0}", no);
+            Console.Out.WriteLine("Number of lines read: {0}", no);
         }
-        
+        /*
+        public override Object[] Introspect()
+        {
+            return new Object[] {
+		"reads input from a Reader " +
+		"(a character stream) and outputs it line-by-line",
+		"OUT", "output", Type.GetType("System.String"),
+			"lines read",
+        // SOURCE may either be a Stream or a String, in
+        // which case it is a file name 
+		"SOURCE", "parameter", Type.GetType("System.Stream"),
+			"Reader to read lines from",
+        "CONFIG", "parameter", null,
+			"timeout interval"};
+        }
+        */
         public override void OpenPorts()
         {
 

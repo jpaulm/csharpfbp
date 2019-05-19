@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FBPComponents\ProcessWRandDelays.cs" />
-    <Compile Include="FBPComponents\SubstreamSensitiveMerge.cs" />
     <Compile Include="FBPComponents\ProcessSlowly.cs" />
     <Compile Include="FBPComponents\CleanBlob.cs" />
     <Compile Include="FBPComponents\Collate.cs" />
@@ -53,7 +51,7 @@
     <Compile Include="FBPComponents\Discard.cs" />
     <Compile Include="FBPComponents\DisplayWords.cs" />
     <Compile Include="FBPComponents\FormatConcord.cs" />
-    <Compile Include="FBPComponents\GenerateTestData.cs" />
+    <Compile Include="FBPComponents\Generate.cs" />
     <Compile Include="FBPComponents\GenerateSlowly.cs" />
     <Compile Include="FBPComponents\GenSS.cs" />
     <Compile Include="FBPComponents\GenSubStreams.cs" />
@@ -75,7 +73,6 @@
     <Compile Include="FBPComponents\Tune.cs" />
     <Compile Include="FBPComponents\WriteText.cs" />
     <Compile Include="FBPComponents\WriteTextBox.cs" />
-    <Compile Include="FBPComponents\WriteToConsole.cs" />
     <Compile Include="FBPComponents\WriteToSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

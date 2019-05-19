@@ -28,8 +28,7 @@ namespace   Components
         IInputPort _inport;
         OutputPort _outport;
 
-        // This isn't a non-looper any more!
-
+        // make it a non-looper 
         public override void Execute() /* throws Throwable */  {
             Packet p;
             for (p = _inport.Receive(); p != null; p = _inport.Receive())

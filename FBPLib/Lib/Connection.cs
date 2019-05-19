@@ -28,7 +28,7 @@ namespace FBPLib
         internal Component _sender;
 
         // Number of senders who have called setSender() but are not closed.
-        internal /* volatile */ int _senderCount = 0;
+        internal volatile int _senderCount = 0;
 
         // The list of types (Class objects) that senders have declared.
         // Vector senderTypes;
@@ -74,7 +74,6 @@ namespace FBPLib
         internal Connection(int size)
         {
             _buffer = new PacketBuffer(size);
-            _buffer._cnxt = this;
         }
         /// <summary>Invoked to tell us we have a(nother) sender.
         /// </summary>
@@ -142,18 +141,16 @@ namespace FBPLib
             //{
             try
             {
-                //Monitor.Enter(_receiver._lockObject);
+                Monitor.Enter(_receiver._lockObject);
                 lock (this)
                 {
-                    Monitor.Enter(_receiver._lockObject);
                     if (!IsClosed())
                     {
-                        DecSenderCount();
+                        --_senderCount;
                         if (IsDrained())
                         {
                             if (_receiver.Status == Component.States.Dormant ||
-                                _receiver.Status == Component.States.NotStarted ||
-                                _receiver.Status == Component.States.SuspFIPE)
+                                _receiver.Status == Component.States.NotStarted)
                                 _receiver.Activate();
                             else
                                 System.Threading.Monitor.PulseAll(this);
@@ -221,14 +218,6 @@ namespace FBPLib
             }
         }
 
-        internal void DecSenderCount()
-        {
-            lock (this)
-            {
-                _senderCount--;
-            }
-        }
-
         /// <summary>The receive function.
         /// See IInputPort.receive.
         /// </summary>
@@ -251,7 +240,7 @@ namespace FBPLib
                 while (IsEmpty())
                 {
                     _receiver.Status = Component.States.SuspRecv;
-                    _receiver.currPort = Name; 
+
                     Trace("Recv/susp");
 
                     try
@@ -342,7 +331,6 @@ namespace FBPLib
                     else
                     {
                         _sender.Status = Component.States.SuspSend;
-                        _sender.currPort = op.Name;
                         
                         _sender._mother.Trace("{0}: Send/susp", _sender.Name);
                         try

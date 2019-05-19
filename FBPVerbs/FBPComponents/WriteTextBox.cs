@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using FBPLib;
+using System.Threading;
 using System.Windows.Forms;
-
+using System.Drawing;
 
 
 namespace Components
@@ -14,7 +16,7 @@ namespace Components
 */
     [MustRun]
     [InPort("DESTINATION")]
-    [InPort("CONFIG", optional = true)]
+    [InPort("CONFIG")]
     [InPort("IN")]
     [OutPort("OUT")]
     [ComponentDescription("Write text to text box")]

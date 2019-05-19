@@ -22,7 +22,6 @@ namespace FBPLib
         // bool partial = false;
         internal string _name;
         internal Component _receiver; // The receiver to deliver to.
-        public bool _optional = false;
         public string Name
         {
             get

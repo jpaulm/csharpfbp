@@ -28,9 +28,9 @@ namespace Components
             // Thanks to Lars Behrmann - http://bytes.com/groups/net-c/279036-running-exe
 
             //ProcessStartInfo startInfo = new ProcessStartInfo("IExplore.exe");
-            ProcessStartInfo startInfo = new ProcessStartInfo("gwd.exe");
+            ProcessStartInfo startInfo = new ProcessStartInfo("DRAWFLOW.EXE");
             startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-            startInfo.WorkingDirectory = @"C:\Users\Paul\Documents\NonBusiness\GeneWeb\GeneWeb-4.09 Win\gw";
+            startInfo.WorkingDirectory = @"C:\Documents and Settings\HP_Administrator\My Documents\Business\C++DrawFBP";
 
             //Process.Start(startInfo);
             //startInfo.Arguments = "www.jpaulmorrison.com";

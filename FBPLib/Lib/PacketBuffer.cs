@@ -26,8 +26,6 @@ namespace FBPLib
         // Number of slots in array currently in use.
         internal int _usedSlots = 0;
 
-        internal Connection _cnxt;              // added
-
 
         internal PacketBuffer(int size)
         {
@@ -44,10 +42,10 @@ namespace FBPLib
         //UPGRADE_NOTE: Synchronized keyword was removed from method 'count'. Lock expression was added. 'ms-help://MS.VSCC/commoner/redir/redirect.htm?keyword="jlca1027"'
         internal virtual int Count()
         {
-            //lock (_cnxt)
-            //{
+            lock (this)
+            {
                 return _usedSlots;
-            //}
+            }
         }
 
         internal virtual void Put(Packet x)
@@ -59,7 +57,7 @@ namespace FBPLib
         }
         internal virtual Packet Take()
         {
-            DecUsedSlots();
+            --_usedSlots;
             Packet old = _array[_receivePtr];
             _array[_receivePtr] = null;
             if (++_receivePtr >= _array.Length)
@@ -70,19 +68,11 @@ namespace FBPLib
         //UPGRADE_NOTE: Synchronized keyword was removed from method 'incUsedSlots'. Lock expression was added. 'ms-help://MS.VSCC/commoner/redir/redirect.htm?keyword="jlca1027"'
         protected internal virtual void IncUsedSlots()
         {
-            //lock (_cnxt)
-            //{
+            lock (this)
+            {
                 ++_usedSlots;
                //  System.Threading.Monitor.Pulse(this);  
-            //}
-        }
-        protected internal virtual void DecUsedSlots()
-        {
-            //lock (_cnxt)
-            //{
-            --_usedSlots;
-            //  System.Threading.Monitor.Pulse(this);  
-            //}
+            }
         }
     }
 }

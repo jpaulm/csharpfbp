@@ -11,7 +11,7 @@ namespace Components
     [InPort("IN")] 
     [OutPort("OUTN")]  
     [OutPort("OUT")]
-    [ComponentDescription("Read a chunk of text from IN, write words to OUT, rejects to OUTN, dropping words of 3 chars or less. Set attributes: Text=input text, Offset=word offset in text")]
+    [ComponentDescription("Read a chunk of text from IN, write words to OUT, rejects to OUTN. Set attributes: Text=input text, Offset=word offset in text")]
     public class TextToWords : Component
     {
         // Thanks to David Bennett

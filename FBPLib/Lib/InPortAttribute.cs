@@ -25,7 +25,6 @@ namespace FBPLib
         public Type type = typeof(Object);
         public bool arrayPort;
         public bool fixedSize;
-        public bool optional;
         public int setDimension;
     }
 }

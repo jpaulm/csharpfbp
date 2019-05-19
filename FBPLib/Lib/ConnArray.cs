@@ -22,7 +22,6 @@
 
         internal string _name;
         Component _receiver;
-        public bool _optional = false;
         
         public int Count()
         {

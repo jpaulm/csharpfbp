@@ -4,14 +4,12 @@ namespace FBPLib
     using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
-
     using System.IO;
     using System.Threading;
     using Spring.Threading.Helpers;   // CountDownLatch  
     //  using System.Text.RegularExpressions;
 
     using FBPLib.Properties;
-    using System.Threading.Tasks;
 
 
     /// <summary> The abstract class which all flow Networks extend directly or
@@ -96,19 +94,12 @@ namespace FBPLib
         List<String> _msgs = null;
         public static bool _tracing;
         public static String _tracePath;
-        //public StreamWriter _traceWriter;
+        private StreamWriter _traceWriter;
         public bool _useConsole = false;
         public static bool _forceConsole = false;
-        //public static List<StreamWriter> _traceFileList = null;
+        public static List<StreamWriter> _traceFileList = null;
         public static int sends, receives, creates, drops, dropOlds;
-        ArrayList selfStarters = new ArrayList();    // JPM added
 
-        private static Dictionary<string, StreamWriter> _traceFileDictionary;  // TF
-
-        public static Object _traceObject;   // JPM added
-
-        public static Object _netObject;  // for locking
-        
         public new void InitBlock()
         {
             _components = new Dictionary<string, Component>();
@@ -125,21 +116,20 @@ namespace FBPLib
             creates = 0;
             drops = 0;
             dropOlds = 0;
-            _traceObject = new Object();  // JPM
 
             if (!(this is SubNet))  // i.e. Network only!
             {
                 int i = Name.LastIndexOf(".");
                 if (i != -1)
                     Name = Name.Substring(i + 1);
-                //   _traceFileList = new List<StreamWriter>();
+                _traceFileList = new List<StreamWriter>();
             }
         }
         // return object to use for synchronising state changes
-        // internal object StateSynchRoot
-        // {
-        //     get { return (_components as ICollection).SyncRoot; }
-        // }
+        internal object StateSynchRoot
+        {
+            get { return (_components as ICollection).SyncRoot; }
+        }
 
         /// <summary>Drive define method of Network
         /// </summary>
@@ -512,120 +502,66 @@ namespace FBPLib
 
         /// <summary>Execute Network as a whole
         /// </summary>
-        [MTAThreadAttribute]   // this is the default, so not really necessary
-        public Task Go()
+        [MTAThreadAttribute]   // this the default, so not really necessary
+        public void Go()
         {
             Type t = this.GetType();
             Name = t.FullName;
 
             _network = this;
-            _netObject = new Object();
 
-           // try
-            //{
-             //   Monitor.Enter(_netObject);
+            DateTime now = DateTime.Now;
 
-                //Thread.CurrentThread.Name = "Go";
-
-                InitBlock();   // moved up
-
-                DateTime now = DateTime.Now;
-                // _traceFileList = new List<StreamWriter>();
-                _traceFileDictionary = new Dictionary<string, StreamWriter>();
-
-                //Settings d = Settings.Default;
-                // _tracing = d.Tracing;  // get value from Properties for FBPLib
-
-                /*
-
-                if (_tracing && !_forceConsole && !_useConsole)
+            InitBlock();
+            _mainthread = new Thread(delegate()
+            {
+                try
                 {
-                    try
-                    {
-                        //instantiate one _traceWriter for each level of the Network and its SubNets
-                        lock (_traceObject)
-                        {
-                            var newTw = GetOrMakeTraceWriter(n);
-                        }
-                        Trace($"Trace file = {s}");
+                    CallDefine();
+                    bool res = true;
+                    foreach (Component comp in _components.Values) {
+                        res &= comp.CheckPorts();
                     }
-                    catch (Exception e)
-                    {
-                        // file cannot be created or opened, so _useConsole
-                        lock (_network) // TODO: review is this lock really needed?
-                        {
-                            Console.Out.WriteLine("Trace file [" + s + "]\n could not be opened, so writing all tracing to console...");
-                            Console.Out.Flush();
-                            _useConsole = true;
-                        }
-                        throw; // Temporary, to know it happened.  TODO: review this
-                    }
+                    if (!res)
+    	                  FlowError.Complain("One or more mandatory connections have been left unconnected: " + Name);
+
+                    _cdl = new CountDownLatch(_components.Count);
+
+
+                    Trace(Name + ": run started");
+                    _active = true;
+
+                    Initiate();
+
+                    WaitForAll();
+                }
+                catch (FlowError e)
+                {
+                    string s = "Flow Error :" + e;
+
+                    Console.Out.WriteLine("Network: " + s);
+                    Console.Out.Flush();
+                    // rethrow the exception for external error handling
+                    // in case of a deadlock: deadlock is the cause
+                    throw e;
                 }
 
-                */
-
-                //InitBlock();
-                return Task.Factory.StartNew(() =>
+                if (_error != null)
                 {
-                    try
-                    {
-                        CallDefine();
-                        bool res = true;
-                        Thread.CurrentThread.Name = "NetworkGo";
-                        foreach (Component comp in _components.Values)
-                        {
-                            res &= comp.CheckPorts();
-                        }
-                        if (!res)
-                            FlowError.Complain("One or more mandatory connections have been left unconnected: " + Name);
+                    // throw the exception which caused the network to stop
+                    throw _error;
+                }
 
-                        _cdl = new CountDownLatch(_components.Count);
+                TimeSpan duration = DateTime.Now - now;
 
+                Console.Out.WriteLine("{0} - run time: {1}", Name, duration);
+                
+                Console.Out.WriteLine("Counts: C: {0}, D: {1}, S: {2}, R (non-null): {3}, DO: {4}", creates, drops, sends, receives, dropOlds);
+                CloseTraceFiles();
 
-                        Trace(Name + ": run started");
-                        _active = true;
+            });
 
-                        Initiate();
-
-                        WaitForAll();
-
-                    }
-                    catch (FlowError e)
-                    {
-                        string s = "Flow Error :" + e;
-
-                        Console.Out.WriteLine("Network: " + s);
-                        Console.Out.Flush();
-                        // rethrow the exception for external error handling
-                        // in case of a deadlock: deadlock is the cause
-                        throw e;
-                    }
-
-                    if (_error != null)
-                    {
-                        // throw the exception which caused the network to stop
-                        throw _error;
-                    }
-
-                    TimeSpan duration = DateTime.Now - now;
-
-                    Console.Out.WriteLine("{0} - run time: {1}", Name, duration);
-
-                    Console.Out.WriteLine("Counts: C: {0}, D: {1}, S: {2}, R (non-null): {3}, DO: {4}", creates, drops, sends, receives, dropOlds);
-                    Console.Out.WriteLine("End of job");
-
-                    //lock(Network._traceObject)                  // add lock 
-                    //{
-                    //  Console.Out.Flush();  // Flush to write trace JPM
-
-                    //Thread.Sleep(500);
-
-                    CloseTraceFiles();  // JPM
-
-
-
-
-                });
+            _mainthread.Start();
         }
 
         
@@ -691,7 +627,7 @@ namespace FBPLib
             {
                 c.OpenPorts();
             }
-            //ArrayList selfStarters = new ArrayList();
+            ArrayList selfStarters = new ArrayList();
             foreach (Component c in _components.Values)
             {
                 c._autoStarting = true;
@@ -715,7 +651,7 @@ namespace FBPLib
                 }
             }
 
-             foreach (Component c in selfStarters)   // moved to after WaitForAll()
+            foreach (Component c in selfStarters)
             {
                 c.Activate();
             }
@@ -841,8 +777,31 @@ namespace FBPLib
             }
 
         }
-        
-   /**
+        /* not needed any more
+        bool DeadlockTest()
+        {
+            List<string> msgs = new List<string>();
+            // Messages are added to list, rather than written directly,
+            //   in case it is not a deadlock
+            msgs.Add("Network has deadlocked");
+            lock (StateSynchRoot)
+            {
+                foreach (Component comp in _components.Values)
+                {
+                    if (comp.Status == States.Active ||
+                        comp.Status == States.LongWait) return false;
+                    msgs.Add(String.Format("--- {1,-13} -- {0}", comp.Name, comp.Status));
+                }
+                foreach (string m in msgs)
+                    Console.Out.WriteLine(m);
+                //FlowError.Complain("Deadlock detected");
+                System.Diagnostics.Trace.Fail("*** Deadlock detected in Network ");
+                return true;
+            }
+        }
+        */
+
+        /**
    * Queries the status of the subnet's components.
    * if deadlock, return true, else return false   
    * 
@@ -851,9 +810,7 @@ namespace FBPLib
 
         bool ListCompStatus(List<String> msgs)
         {
-            bool terminated = true;
-            //lock (this)         JPM
-            lock (_network)   // JPM
+            lock (this)
             {
                 foreach (Component comp in _components.Values)
                 {
@@ -870,19 +827,14 @@ namespace FBPLib
                             return false;
                         }
 
-                        if (comp.Status != States.Terminated)
-                            terminated = false;
-                        string compPort = comp.Name;
-                        if (comp.Status == States.SuspRecv || comp.Status == States.SuspSend)
-                            compPort += "." + comp.currPort;
                         string st = Enum.GetName(typeof(States), comp._status);
                         st = (st + "            ").Substring(0, 13);
-                        msgs.Add(String.Format("--- {0}     {1}", st, compPort));
+                        msgs.Add(String.Format("--- {1}     {0}", Name + "." + comp.Name, st));
                     }
                 }
 
 
-                return !terminated;
+                return true;
             }
         }
         // called by WaitForAll method
@@ -969,7 +921,7 @@ namespace FBPLib
         {
             if (_tracing)
             {
-                lock (Network._traceObject)
+                lock (this)
                 {
                     DateTime now = DateTime.UtcNow;
 
@@ -977,27 +929,51 @@ namespace FBPLib
 
                     string n = GetTracingName();
 
-                    var _traceWriter = GetOrMakeTraceWriter(n);
-
                     // forceConsole is used for debugging purposes to force writing to the console
                     // useConsole will be set to true if the trace file could not be opened
                     if (_forceConsole || _useConsole)
                     {
-                       // lock (_network)
-                       // {
+                        lock (_network)
+                        {
                             Console.Out.WriteLine(dt + " " + n + ": " + msg);
-                            //Console.Out.Flush();
-                       // }
+                            Console.Out.Flush();
+                        }
                         return;
                     }
                     FileStream fs = null;
-                   
-
-                    try
+                    if (_traceWriter == null)
+                    {
+                        string s = _tracePath + n + "-fulltrace.txt";
+                        // Delete the file if it exists.
+                        if (File.Exists(s))
+                        {
+                            File.Delete(s);
+                        }
+                        try
+                        {
+                            fs = new FileStream(s, FileMode.OpenOrCreate, FileAccess.Write);
+                            _traceWriter = new StreamWriter(fs);
+                        }
+                        catch (IOException e)
+                        {
+                            // file cannot be created or opened - disable tracing
+                            // _tracing = false;
+                            lock (_network)
+                            {
+                                Console.Out.WriteLine("Trace file " + s + " could not be opened - \n" +
+                                "   writing to console...");
+                                Console.Out.WriteLine(dt + " " + n + ": " + msg);
+                                Console.Out.Flush();
+                            }
+                            _useConsole = true;
+                            return;
+                        }
+                        _traceFileList.Add(_traceWriter);
+                    } try
                     {
                         _traceWriter.WriteLine(dt + " " + msg);
-                        _traceWriter.Flush();  
-                        //Thread.Sleep(500);  // for testing
+                        _traceWriter.Flush();
+                        // Thread.Sleep(500);  // for testing
                     }
                     catch (IOException e)
                     {
@@ -1011,58 +987,11 @@ namespace FBPLib
             }
         }
 
-        private static StreamWriter GetOrMakeTraceWriter(string n)
-        {
-            var s = _tracePath + n + "-fullTrace.txt";
-
-            if (_traceFileDictionary.ContainsKey(n))
-            {
-                return _traceFileDictionary[n];
-            }
-            // else make a new one
-            if (File.Exists(s))
-            {
-                // Delete the existing file (if it is not in use by another process http://stackoverflow.com/a/876513)
-                try
-                {
-                    // Close in case still open                   JPM
-                    using (StreamWriter f = File.CreateText(s))
-                    {
-                        f.Close();
-                    }
-
-                    File.Delete(s);
-                }
-                catch (IOException e)
-                {
-                    // TODO: why does TestDeadlockDetection-fullTrace.txt fail here, 
-                    // if it has not Terminated before running another Network.Go()?
-                    throw e; // TODO: consider incrementing the file name instead?
-                }
-            }
-            var fs = new FileStream(s, FileMode.OpenOrCreate, FileAccess.Write);
-            var traceWriter = new StreamWriter(fs);
-            _traceFileDictionary.Add(n, traceWriter);
-
-            return traceWriter;
-        }
-
         void CloseTraceFiles()
         {
-            lock (Network._traceObject)
-            {
-                //foreach (StreamWriter x in _traceFileList)
-                foreach (KeyValuePair<string, StreamWriter> x in _traceFileDictionary)
-                {
-                    if (x.Value != null)
-                    {
-                        x.Value.Dispose();
-                        //_traceFileDictionary.Remove(x.Key);
-                    }
-                }
-            }
+            foreach (StreamWriter x in _traceFileList)
+                x.Close();
         }
-
         string GetTracingName()
         {
             if (_mother != null)
