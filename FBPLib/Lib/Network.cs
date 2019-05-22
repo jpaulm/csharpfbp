@@ -8,9 +8,8 @@ namespace FBPLib
     using System.Threading;
     using Spring.Threading.Helpers;   // CountDownLatch  
     //  using System.Text.RegularExpressions;
-
-    using FBPLib.Properties;
-
+    
+    //using Settings;
 
     /// <summary> The abstract class which all flow Networks extend directly or
     /// indirectly.  A specific flow Network must override the <code>define()</code>
@@ -99,6 +98,7 @@ namespace FBPLib
         public static bool _forceConsole = false;
         public static List<StreamWriter> _traceFileList = null;
         public static int sends, receives, creates, drops, dropOlds;
+        Properties.Settings stgs = null;
 
         public new void InitBlock()
         {
@@ -108,8 +108,10 @@ namespace FBPLib
             // Get the directory our exe is running from.
             _strPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             _strPath = _strPath.Substring(0, _strPath.LastIndexOf('\\'));
-            Settings s = Settings.Default;
-            _tracing = s.Tracing;  // get value from Properties for FBPLib
+
+            stgs = Properties.Settings.Default;
+            _tracing = stgs.Tracing;  // get value from Properties for FBPLib
+            
             _tracePath = @"C:\Temp\";
             receives = 0;
             sends = 0;
@@ -708,7 +710,7 @@ namespace FBPLib
             //bool deadlock = false;
 
             int freq = 500;   // check every .5 second
-            Settings s = Settings.Default;
+            //Settings s = Settings.Default;
             while (true)
             {
                 if (_cdl.Await(new TimeSpan(0, 0, 0, 0, freq)))   // 500 msecs 
@@ -728,7 +730,7 @@ namespace FBPLib
                 {
                     continue;
                 }
-                if (s.DeadlockTestEnabled)
+                if (stgs.DeadlockTestEnabled)
                 {
                     TestTimeouts(freq);
                     if (!_active)  // else interval elapsed

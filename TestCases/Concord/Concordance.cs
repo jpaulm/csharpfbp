@@ -28,7 +28,7 @@ namespace Concord
             //DirectoryInfo directory = new DirectoryInfo(
             //    Path.GetFullPath(Path.Combine(currentDir, @"..\..\Resources")));
             Initialize(Path.GetFullPath(Path.Combine(currentDir, @"..\..\Resources\")), "Dir1.IN");
-            Initialize(@"fake_la", "Match.CONFIG");
+            Initialize(@"fake_cy", "Match.CONFIG");
             Initialize(@"5,50", "Format.CONFIG");
             TextBox tb = parms[0] as TextBox;
             TextBox tb2 = parms[1] as TextBox;
