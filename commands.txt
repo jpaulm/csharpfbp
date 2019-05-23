@@ -1,0 +1,11 @@
+To compile FBPLib:
+
+C:\Users\Paul\Documents\GitHub\csharpfbp\fbplib > csc -t:library -out:bin/Debug/FBPLib.dll -recurse:*.cs
+
+To compile FBPVerbs:
+
+C:\Users\Paul\Documents\GitHub\csharpfbp\fbpverbs]>  csc -t:library -r:c:\users\paul\documents\Github\csharpfbp\FBPLib/bin/Debug/FBPLib.dll -out:bin/Debug/FBPVerbs.dll Properties/*.cs FBPComponents/*.cs
+ 
+To compile Concord:
+
+C:\Users\Paul\Documents\GitHub\csharpfbp> csc -t:exe -r:c:\users\paul\documents\Github\csharpfbp\FBPLib\bin\Debug/FBPLib.dll -r:c:\users\paul\documents\Github\csharpfbp\FBPVerbs\bin\Debug/FBPVerbs.dll -out:TestCases\Concord/bin/Debug/Concord.exe TestCases\Concord\Properties\*.cs TestCases\Concord\*.cs
