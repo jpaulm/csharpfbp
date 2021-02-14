@@ -1,10 +1,5 @@
-
-
 using System;
 using FBPLib;
-
-
-
 
 namespace Components
 {

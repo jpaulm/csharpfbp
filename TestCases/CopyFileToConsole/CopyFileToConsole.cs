@@ -18,7 +18,7 @@ namespace CopyFileToConsole
                 * */
         public override void Define() /* throws Throwable */
         {
-            Connect(Component("Read", typeof(ReadText)),
+                Connect(Component("Read", typeof(ReadText)),
                 Port("OUT"),
                 Component("Write", typeof(WriteToConsole)),
                 Port("IN"));

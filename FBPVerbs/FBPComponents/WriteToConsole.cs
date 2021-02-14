@@ -11,6 +11,7 @@ namespace Components
     [InPort("IN")]
     [OutPort("OUT", optional = true)]
     [ComponentDescription("Write text to console")]
+
     public class WriteToConsole : Component
     {
         internal static string _copyright =

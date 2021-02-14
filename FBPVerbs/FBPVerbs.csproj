@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FBPComponents\GenerateTestData.cs" />
     <Compile Include="FBPComponents\ProcessSlowly.cs" />
     <Compile Include="FBPComponents\CleanBlob.cs" />
     <Compile Include="FBPComponents\Collate.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="FBPComponents\Match.cs" />
     <Compile Include="FBPComponents\Output.cs" />
     <Compile Include="FBPComponents\Passthru.cs" />
+    <Compile Include="FBPComponents\ProcessWRandDelays.cs" />
     <Compile Include="FBPComponents\ReadFromSocket.cs" />
     <Compile Include="FBPComponents\ReadOdbc.cs" />
     <Compile Include="FBPComponents\ReadStreamBlob.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="FBPComponents\Tune.cs" />
     <Compile Include="FBPComponents\WriteText.cs" />
     <Compile Include="FBPComponents\WriteTextBox.cs" />
+    <Compile Include="FBPComponents\WriteToConsole.cs" />
     <Compile Include="FBPComponents\WriteToSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

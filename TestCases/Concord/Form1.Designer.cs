@@ -66,7 +66,7 @@ namespace Concord
             this.tbOut2.Multiline = true;
             this.tbOut2.Name = "tbOut2";
             this.tbOut2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbOut2.Size = new System.Drawing.Size(359, 265);
+            this.tbOut2.Size = new System.Drawing.Size(450, 265);   // x dimension expanded
             this.tbOut2.TabIndex = 4;
             // 
             // btnGo
@@ -130,7 +130,7 @@ namespace Concord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(613, 378);
+            this.ClientSize = new System.Drawing.Size(700, 378);  // x-dimension expanded
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tbOut3);
             this.Controls.Add(this.label3);
