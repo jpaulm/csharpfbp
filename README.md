@@ -35,10 +35,10 @@ Now go into Visual C#, and `Open Project` `CsharpFBP.sln` (in the just cloned di
 
 Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.  The .dlls for these will be needed when testing your application, and these two projects should be added as references.
 
-Compile and Run Commands
+Compile Commands
 ---
 
-You will find a number of compile and run commands in [Commands](commands.md)
+You will find a number of C# compile commands in [Commands](commands.md)
 
 "Concord" (forms-based Windows application)
 ---
