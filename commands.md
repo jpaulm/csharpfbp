@@ -1,8 +1,8 @@
-To compile FBPLib, position current directory to `GitHub\csharpfbp\fbplib`:
+To compile FBPLib, position current directory to `GitHub\csharpfbp\FBPLib`:
 
 `csc -t:library -out:bin/Debug/FBPLib.dll -recurse:*.cs`
 
-To compile FBPVerbs, position current directory to `GitHub\csharpfbp\fbpverbs`:
+To compile FBPVerbs, position current directory to `GitHub\csharpfbp\FBPVerbs`:
 
 `csc -t:library -r:c:\users\paul\documents\Github\csharpfbp\FBPLib/bin/Debug/FBPLib.dll -out:bin/Debug/FBPVerbs.dll Properties/*.cs FBPComponents/*.cs`
  
