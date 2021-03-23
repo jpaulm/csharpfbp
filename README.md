@@ -33,9 +33,9 @@ Do `git clone https://github.com/jpaulm/csharpfbp`
 
 Now go into Visual C#, and `Open Project` `CsharpFBP.sln` (in the just cloned directory)
 
-Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.  The `dll`s for these will be needed when testing your application, and these two projects should be added as references.
+Go into Solution Explorer, where you will see a number of "projects" - two of which are `FBPLib` and `FBPVerbs`.  The `dll`s for these will be needed when testing your application, and these two projects should be added as references in any of your projects.
 
-The `dll`s are in https://github.com/jpaulm/csharpfbp/tree/master/FBPLib/bin/Debug , and https://github.com/jpaulm/csharpfbp/tree/master/FBPVerbs/bin/Debug , respectively.
+The `dll`s will be in `FBPLib/bin/Debug` , and `FBPVerbs/bin/Debug` , respectively.
 
 Compile Commands
 ---
